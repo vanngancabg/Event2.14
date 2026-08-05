@@ -98,18 +98,24 @@
             color: #ffaa00;
         }
 
+        /* Trạng thái Đã trao: Xanh lá đậm nổi bật */
         .badge-status-done {
             background-color: #198754 !important;
             color: #ffffff !important;
-            font-weight: 600;
-            padding: 5px 10px;
+            font-weight: 700;
+            padding: 5px 12px;
+            border-radius: 4px;
+            box-shadow: 0 0 8px rgba(25, 135, 84, 0.5);
         }
 
+        /* Trạng thái Chưa có người đạt: Màu xám trung tính */
         .badge-status-open {
-            background-color: #495057 !important;
-            color: #e9ecef !important;
+            background-color: #343a40 !important;
+            color: #adb5bd !important;
             font-weight: 600;
-            padding: 5px 10px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            border: 1px solid #495057;
         }
 
         .submission-list {
@@ -285,16 +291,19 @@
         }
     }
 
+    // Hàm căn chỉnh hiển thị trạng thái theo đúng yêu cầu mới
     function formatRewardCell(reward, winner, status) {
         if (!reward && !winner) {
             return '<span class="text-muted">---</span>';
         }
         
         let statusBadge = '';
-        if (status === 'Đã trao') {
+        let statusText = status || 'Chưa có người đạt';
+
+        if (statusText === 'Đã trao') {
             statusBadge = '<span class="badge badge-status-done">Đã trao</span>';
         } else {
-            statusBadge = '<span class="badge badge-status-open">Chưa trao</span>';
+            statusBadge = `<span class="badge badge-status-open">${statusText}</span>`;
         }
 
         return `
@@ -339,7 +348,7 @@
                 isExpired = true;
             }
 
-            // Nút nộp bài (Chỉ truyền index số để tuyệt đối không bị lỗi ký tự đặc biệt)
+            // Nút nộp bài
             let actionBtnHTML = '';
             if (isExpired) {
                 actionBtnHTML = `<button class="btn btn-sm btn-secondary w-100 disabled" style="opacity: 0.6;"><i class="fa-solid fa-lock"></i> Hết hạn</button>`;
