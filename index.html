@@ -41,7 +41,6 @@
             text-shadow: 0 0 12px rgba(255, 193, 7, 0.4);
         }
 
-        /* Khung thông báo sáng & rõ ràng */
         .notice-box {
             background-color: #1e232d;
             border: 1px solid #3d4454;
@@ -75,7 +74,6 @@
             padding: 10px 8px;
         }
 
-        /* Tinh chỉnh cột Giải 1, 2, 3 căn giữa chuẩn */
         .reward-col {
             text-align: center !important;
         }
@@ -100,7 +98,6 @@
             color: #ffaa00;
         }
 
-        /* Badge Trạng thái nổi bật */
         .badge-status-done {
             background-color: #198754 !important;
             color: #ffffff !important;
@@ -115,7 +112,6 @@
             padding: 5px 10px;
         }
 
-        /* Danh sách bài nộp có tương phản cao */
         .submission-list {
             max-height: 140px;
             overflow-y: auto;
@@ -289,6 +285,26 @@
         }
     }
 
+    // Hàm kiểm tra và xử lý ẩn ô giải trống
+    function formatRewardCell(reward, winner, status) {
+        if (!reward && !winner) {
+            return '<span class="text-muted">---</span>';
+        }
+        
+        let statusBadge = '';
+        if (status === 'Đã trao') {
+            statusBadge = '<span class="badge badge-status-done">Đã trao</span>';
+        } else {
+            statusBadge = '<span class="badge badge-status-open">Chưa trao</span>';
+        }
+
+        return `
+            <div class="tg-amount">${reward ? reward + ' TG' : ''}</div>
+            <div class="winner-name ${winner ? 'has-winner' : 'no-winner'}">${winner || '---'}</div>
+            ${statusBadge}
+        `;
+    }
+
     function renderTable(data) {
         const tbody = document.getElementById('event-table-body');
         tbody.innerHTML = '';
@@ -336,26 +352,10 @@
                 <td class="text-center font-monospace fw-bold">${item.tt}</td>
                 <td class="fw-bold text-white fs-6">${item.title}</td>
                 
-                <!-- Cột Giải 1 Căn Giữa -->
-                <td class="reward-col">
-                    <div class="tg-amount">${item.r1_reward ? item.r1_reward + ' TG' : ''}</div>
-                    <div class="winner-name ${item.r1_winner ? 'has-winner' : 'no-winner'}">${item.r1_winner || '---'}</div>
-                    <span class="badge ${item.r1_status === 'Đã trao' ? 'badge-status-done' : 'badge-status-open'}">${item.r1_status || 'Chưa trao'}</span>
-                </td>
-                
-                <!-- Cột Giải 2 Căn Giữa -->
-                <td class="reward-col">
-                    <div class="tg-amount">${item.r2_reward ? item.r2_reward + ' TG' : ''}</div>
-                    <div class="winner-name ${item.r2_winner ? 'has-winner' : 'no-winner'}">${item.r2_winner || '---'}</div>
-                    <span class="badge ${item.r2_status === 'Đã trao' ? 'badge-status-done' : 'badge-status-open'}">${item.r2_status || 'Chưa trao'}</span>
-                </td>
-                
-                <!-- Cột Giải 3 Căn Giữa -->
-                <td class="reward-col">
-                    <div class="tg-amount">${item.r3_reward ? item.r3_reward + ' TG' : ''}</div>
-                    <div class="winner-name ${item.r3_winner ? 'has-winner' : 'no-winner'}">${item.r3_winner || '---'}</div>
-                    <span class="badge ${item.r3_status === 'Đã trao' ? 'badge-status-done' : 'badge-status-open'}">${item.r3_status || 'Chưa trao'}</span>
-                </td>
+                <!-- Tự động ẩn chi tiết nếu giải không có thưởng -->
+                <td class="reward-col">${formatRewardCell(item.r1_reward, item.r1_winner, item.r1_status)}</td>
+                <td class="reward-col">${formatRewardCell(item.r2_reward, item.r2_winner, item.r2_status)}</td>
+                <td class="reward-col">${formatRewardCell(item.r3_reward, item.r3_winner, item.r3_status)}</td>
                 
                 <td>${submissionsHTML}</td>
                 <td class="text-center"><span class="badge ${isExpired ? 'bg-danger text-white' : 'bg-info text-dark fw-bold'}">${dateDisplay}</span></td>
@@ -379,6 +379,15 @@
                     { playerName: "gfbsdfb", time: "05/08 10:41", proofUrl: "#" }
                 ],
                 note: "Là charm cần farm và giết boss map Teganze 120"
+            },
+            {
+                id: "2", tt: 2, title: "Có Charm bò Fool's Gold (tổng điểm 120+)",
+                r1_reward: 50, r1_winner: "", r1_status: "Chưa trao",
+                r2_reward: "", r2_winner: "", r2_status: "",
+                r3_reward: "", r3_winner: "", r3_status: "",
+                endDate: "",
+                submissions: [],
+                note: "Là charm boss bò 115"
             }
         ];
         renderTable(mockData);
