@@ -310,7 +310,7 @@
 
         const today = new Date().toISOString().split('T')[0]; 
 
-        data.forEach(item => {
+        data.forEach((item, index) => {
             const tr = document.createElement('tr');
             
             // Xử lý danh sách bài nộp
@@ -339,15 +339,12 @@
                 isExpired = true;
             }
 
-            // Mã hóa an toàn chuỗi tên mốc để tránh lỗi khi có chứa dấu nháy đơn (')
-            const safeTitle = (item.title || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
-
-            // Nút nộp bài
+            // Nút nộp bài (Chỉ truyền index số để tuyệt đối không bị lỗi ký tự đặc biệt)
             let actionBtnHTML = '';
             if (isExpired) {
                 actionBtnHTML = `<button class="btn btn-sm btn-secondary w-100 disabled" style="opacity: 0.6;"><i class="fa-solid fa-lock"></i> Hết hạn</button>`;
             } else {
-                actionBtnHTML = `<button class="btn btn-sm btn-upload" onclick="openUploadModal('${item.id}', '${safeTitle}')"><i class="fa-solid fa-upload"></i> Nộp</button>`;
+                actionBtnHTML = `<button class="btn btn-sm btn-upload" onclick="openUploadModalByIndex(${index})"><i class="fa-solid fa-upload"></i> Nộp</button>`;
             }
 
             tr.innerHTML = `
@@ -367,9 +364,11 @@
         });
     }
 
-    function openUploadModal(eventId, title) {
-        document.getElementById('modal-event-id').value = eventId;
-        document.getElementById('modal-event-title').value = title;
+    function openUploadModalByIndex(index) {
+        const item = eventData[index];
+        if(!item) return;
+        document.getElementById('modal-event-id').value = item.id;
+        document.getElementById('modal-event-title').value = item.title;
         var uploadModal = new bootstrap.Modal(document.getElementById('uploadModal'));
         uploadModal.show();
     }
