@@ -6,7 +6,7 @@
     <title>SỰ KIỆN MEDIAN XL MÙA 2.14 - CỘNG ĐỒNG D2VN</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=8bnSlnWzhAJnhq_Y3i0fCzETWeCT2byIqAXK9fP-bDBeHnuGXAIGoikbfrMDJVlyY4MJf8RQ2JvUbEOgSufYdyM6P5i6-EiNOGzXyZJj4YqnBs_R7EzGtHfnF50jBd4KXfcOkbDFL_4_LpcGMAADif4V162AJ3SvWZqzMW7mpgVXn_4tFzlJ_ENARYcAaCr-2BsPUQGejmTzk_U3E42-s7Uo4weAWzuAg8ysxXNNlinrHoBTmKOe5m6IXFkSyEfgtbpLIVsGBGcoSU2bKYAOXZIUc2e-5K6P0qjVR1pBt7Yc8-BGzkqLpgj29-KCtz-H" charset="UTF-8"></script><link rel="stylesheet" crossorigin="anonymous" href="https://gc.kis.v2.scr.kaspersky-labs.com/E3E8934C-235A-4B0E-825A-35A08381A191/abn/main.css?attr=aHR0cHM6Ly9jb250cmlidXRpb24udXNlcmNvbnRlbnQuZ29vZ2xlLmNvbS9kb3dubG9hZD9jPUNneGlZWEprWDNOMGIzSmhaMlVTVUJJTmNtVnpjRzl1YzJWZlpHRjBZUm9fQ2pBd1pXSTBaak16WldJNU9EWXlaV05tTURBd05qVTRORE5qWVdFNVl6RmlOREF4WVdZNVlUUmlPR1l4TlRJMlptVVNDeElIRUlLYTB0V3NHQmdCJmZpbGVuYW1lPWluZGV4Lmh0bWwmb3BpPTEwMzEzNTA1MA"/><style>
+    <style>
         :root {
             --bg-color: #0f1115;
             --card-bg: #181b20;
@@ -40,14 +40,7 @@
             text-shadow: 0 0 10px rgba(255, 183, 3, 0.3);
         }
 
-        .status-badge {
-            font-size: 0.85rem;
-            padding: 4px 8px;
-            border-radius: 4px;
-        }
-
         .bg-done { background-color: #198754; color: white; }
-        .bg-pending { background-color: #ffc107; color: black; }
         .bg-open { background-color: #6c757d; color: white; }
 
         .table-custom {
@@ -83,7 +76,6 @@
         .btn-upload:hover {
             background-color: #e0a100;
             color: #000;
-            transform: translateY(-2px);
         }
 
         .submission-list {
@@ -113,27 +105,26 @@
 
 <div class="header-banner">
     <div class="container">
-        <h1 class="header-title"><i class="fa-solid => fa-dragon"></i> EVENT MEDIAN XL MÙA 2.14</h1>
+        <h1 class="header-title"><i class="fa-solid fa-dragon"></i> EVENT MEDIAN XL MÙA 2.14</h1>
         <p class="text-secondary mb-1">Cộng đồng Diablo 2 Median XL Việt Nam</p>
-        <span class="badge bg-danger fs-6"><i class="fa-regular fa-clock"></i> Thời gian bắt đầu: Cập nhật theo Mùa giải</span>
+        <span class="badge bg-danger fs-6"><i class="fa-regular fa-clock"></i> Cập nhật thời gian thực từ Ban Quản Lý</span>
     </div>
 </div>
 
 <div class="container-fluid px-4">
 
-    <!-- Thanh công cụ & Thống kê -->
+    <!-- Thanh công cụ -->
     <div class="row mb-4">
         <div class="col-md-8">
             <div class="alert alert-dark border-secondary d-flex align-items-center gap-3">
                 <i class="fa-solid fa-circle-info text-warning fs-3"></i>
                 <div>
-                    <strong>Hướng dẫn cho Anh Em:</strong> Sau khi hoàn thành mốc, bấm nút <span class="badge bg-warning text-dark">Nộp Bài</span> tương ứng. Ban quản lý sẽ đối soát theo thời gian tải lên sớm nhất và cập nhật danh sách trao giải!
+                    <strong>Hướng dẫn cho Anh Em:</strong> Sau khi hoàn thành mốc, bấm nút <span class="badge bg-warning text-dark">Nộp</span> tương ứng. Ban quản lý sẽ đối soát theo thời gian tải lên sớm nhất và cập nhật danh sách trao giải!
                 </div>
             </div>
         </div>
         <div class="col-md-4 text-end d-flex align-items-center justify-content-end gap-2">
             <button class="btn btn-outline-light" onclick="loadData()"><i class="fa-solid fa-rotate"></i> Làm mới dữ liệu</button>
-            <a href="#" id="sheet-link" target="_blank" class="btn btn-outline-success"><i class="fa-solid fa-file-excel"></i> Xem Bảng Master Sheet</a>
         </div>
     </div>
 
@@ -143,19 +134,19 @@
             <thead>
                 <tr>
                     <th style="width: 50px;">TT</th>
-                    <th style="width: 250px;">NỘI DUNG MỐC SỰ KIỆN</th>
+                    <th style="width: 230px;">NỘI DUNG MỐC SỰ KIỆN</th>
                     <th>GIẢI 1 (ĐẦU TIÊN)</th>
                     <th>GIẢI 2 (THỨ 2)</th>
                     <th>GIẢI 3 (THỨ 3)</th>
-                    <th style="width: 280px;">DANH SÁCH ANH EM ĐÃ NỘP BÀI</th>
-                    <th style="width: 220px;">GHI CHÚ</th>
-                    <th style="width: 100px;">THAO TÁC</th>
+                    <th style="width: 260px;">DANH SÁCH ĐÃ NỘP BÀI</th>
+                    <th style="width: 120px;">HẠN / NGÀY TRAO</th>
+                    <th style="width: 180px;">GHI CHÚ</th>
+                    <th style="width: 110px;">THAO TÁC</th>
                 </tr>
             </thead>
             <tbody id="event-table-body">
-                <!-- Nội dung sẽ được nạp tự động qua JavaScript từ Google Sheet -->
                 <tr>
-                    <td colspan="8" class="text-center py-5">
+                    <td colspan="9" class="text-center py-5">
                         <div class="spinner-border text-warning" role="status"></div>
                         <p class="mt-2 text-muted">Đang tải dữ liệu sự kiện Mùa 2.14...</p>
                     </td>
@@ -178,7 +169,7 @@
                     <input type="hidden" id="modal-event-id">
                     <div class="mb-3">
                         <label class="form-label text-secondary">Nội dung mốc:</label>
-                        <input type="text" class="form-value form-control bg-secondary text-white border-0" id="modal-event-title" readonly>
+                        <input type="text" class="form-control bg-secondary text-white border-0" id="modal-event-title" readonly>
                     </div>
                     <div class="mb-3">
                         <label for="player-name" class="form-label">Tên Ingame (Fn / Account) <span class="text-danger">*</span></label>
@@ -207,7 +198,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    // Dán URL Web App Google Apps Script của bạn vào đây:
+    // DÁN URL WEB APP GOOGLE APPS SCRIPT CỦA BẠN VÀO GIỮA DẤU NGOẶC KÉP:
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwFzJJvzwKe9W7FYnGKBajeqZeZXCcFP2qoB-pzhTf4bXjIKchQLGFyTLamhdSpjT0w/exec";
 
     let eventData = [];
@@ -220,7 +211,6 @@
             renderTable(data);
         } catch (err) {
             console.error("Lỗi tải dữ liệu:", err);
-            // Hiển thị dữ liệu mẫu nếu chưa gắn Apps Script
             renderDummyData();
         }
     }
@@ -229,10 +219,12 @@
         const tbody = document.getElementById('event-table-body');
         tbody.innerHTML = '';
 
+        const today = new Date().toISOString().split('T')[0]; // Lấy ngày hiện tại YYYY-MM-DD
+
         data.forEach(item => {
             const tr = document.createElement('tr');
             
-            // Xử lý render danh sách người nộp bài
+            // Xử lý danh sách bài nộp
             let submissionsHTML = '<div class="submission-list">';
             if(item.submissions && item.submissions.length > 0) {
                 item.submissions.forEach((sub, idx) => {
@@ -244,9 +236,24 @@
                     `;
                 });
             } else {
-                submissionsHTML += '<span class="text-muted italic"><small>Chưa có ai nộp</small></span>';
+                submissionsHTML += '<span class="text-muted italic"><small>Chưa có bài nộp</small></span>';
             }
             submissionsHTML += '</div>';
+
+            // Kiểm tra xem đã hết hạn hay chưa
+            let isExpired = false;
+            let dateDisplay = item.endDate || 'Chưa chốt';
+            if (item.endDate && item.endDate < today) {
+                isExpired = true;
+            }
+
+            // Nút nộp bài (Khóa nếu hết hạn)
+            let actionBtnHTML = '';
+            if (isExpired) {
+                actionBtnHTML = `<button class="btn btn-sm btn-secondary disabled"><i class="fa-solid fa-lock"></i> Hết hạn</button>`;
+            } else {
+                actionBtnHTML = `<button class="btn btn-sm btn-upload" onclick="openUploadModal('${item.id}', '${item.title}')"><i class="fa-solid fa-upload"></i> Nộp</button>`;
+            }
 
             tr.innerHTML = `
                 <td class="text-center font-monospace">${item.tt}</td>
@@ -254,56 +261,40 @@
                 <td>
                     <div><strong>${item.r1_reward || ''} FG</strong></div>
                     <div class="${item.r1_status === 'Đã trao' ? 'text-success' : 'text-warning'} fw-bold">${item.r1_winner || '---'}</div>
-                    <span class="badge ${item.r1_status === 'Đã trao' ? 'bg-done' : 'bg-open'}">${item.r1_status || 'Chưa mở'}</span>
+                    <span class="badge ${item.r1_status === 'Đã trao' ? 'bg-done' : 'bg-open'}">${item.r1_status || 'Chưa trao'}</span>
                 </td>
                 <td>
                     <div><strong>${item.r2_reward || ''} FG</strong></div>
                     <div class="${item.r2_status === 'Đã trao' ? 'text-success' : 'text-warning'} fw-bold">${item.r2_winner || '---'}</div>
-                    <span class="badge ${item.r2_status === 'Đã trao' ? 'bg-done' : 'bg-open'}">${item.r2_status || 'Chưa mở'}</span>
+                    <span class="badge ${item.r2_status === 'Đã trao' ? 'bg-done' : 'bg-open'}">${item.r2_status || 'Chưa trao'}</span>
                 </td>
                 <td>
                     <div><strong>${item.r3_reward || ''} FG</strong></div>
                     <div class="${item.r3_status === 'Đã trao' ? 'text-success' : 'text-warning'} fw-bold">${item.r3_winner || '---'}</div>
-                    <span class="badge ${item.r3_status === 'Đã trao' ? 'bg-done' : 'bg-open'}">${item.r3_status || 'Chưa mở'}</span>
+                    <span class="badge ${item.r3_status === 'Đã trao' ? 'bg-done' : 'bg-open'}">${item.r3_status || 'Chưa trao'}</span>
                 </td>
                 <td>${submissionsHTML}</td>
+                <td class="text-center"><span class="badge ${isExpired ? 'bg-danger' : 'bg-info text-dark'}">${dateDisplay}</span></td>
                 <td><small class="text-secondary">${item.note || ''}</small></td>
-                <td class="text-center">
-                    <button class="btn btn-sm btn-upload" onclick="openUploadModal('${item.id}', '${item.title}')">
-                        <i class="fa-solid fa-upload"></i> Nộp
-                    </button>
-                </td>
+                <td class="text-center">${actionBtnHTML}</td>
             `;
             tbody.appendChild(tr);
         });
     }
 
     function renderDummyData() {
-        // Mockup dữ liệu giống trong ảnh Mùa 2.13
         const mockData = [
             {
                 id: "1", tt: 1, title: "Có Charm Umbaru (tổng 4 chỉ số 200+)",
                 r1_reward: 80, r1_winner: "kien1990", r1_status: "Đã trao",
                 r2_reward: 50, r2_winner: "ensiferumlism", r2_status: "Đã trao",
                 r3_reward: 30, r3_winner: "rosex", r3_status: "Đã trao",
+                endDate: "2026-05-10",
                 submissions: [
                     { playerName: "kien1990", time: "25/04 01:15", proofUrl: "#" },
-                    { playerName: "ensiferumlism", time: "25/04 02:00", proofUrl: "#" },
-                    { playerName: "rosex", time: "25/04 03:20", proofUrl: "#" }
+                    { playerName: "ensiferumlism", time: "25/04 02:00", proofUrl: "#" }
                 ],
                 note: "Charm Teganze 120"
-            },
-            {
-                id: "2", tt: 2, title: "Giết Samael",
-                r1_reward: 100, r1_winner: "igponngo977", r1_status: "Đã trao",
-                r2_reward: 80, r2_winner: "teobeo", r2_status: "Đã trao",
-                r3_reward: 50, r3_winner: "Chưa có", r3_status: "Chưa trao",
-                submissions: [
-                    { playerName: "igponngo977", time: "26/04 10:00", proofUrl: "#" },
-                    { playerName: "teobeo", time: "26/04 11:30", proofUrl: "#" },
-                    { playerName: "member_xyz", time: "26/04 14:10", proofUrl: "#" }
-                ],
-                note: "Boss 135 (không cần làm nhiệm vụ)"
             }
         ];
         renderTable(mockData);
@@ -334,7 +325,7 @@
                 note: document.getElementById('player-note').value,
                 fileName: file.name,
                 mimeType: file.type,
-                fileData: evt.target.result.split(',')[1] // Base64
+                fileData: evt.target.result.split(',')[1]
             };
 
             fetch(SCRIPT_URL, {
