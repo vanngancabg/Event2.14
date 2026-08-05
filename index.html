@@ -8,13 +8,14 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0f1115;
-            --card-bg: #181b20;
-            --accent-gold: #ffb703;
-            --accent-green: #2ec4b6;
-            --accent-red: #e63946;
-            --text-main: #e0e6ed;
-            --border-color: #2a2e37;
+            --bg-color: #0c0d10;
+            --card-bg: #161920;
+            --accent-gold: #ffc107;
+            --accent-green: #20c997;
+            --accent-red: #ff4d4f;
+            --text-main: #ffffff;
+            --text-muted: #b0b8c4;
+            --border-color: #2d323e;
         }
 
         body {
@@ -25,11 +26,11 @@
         }
 
         .header-banner {
-            background: linear-gradient(180deg, #1f1208 0%, var(--bg-color) 100%);
+            background: linear-gradient(180deg, #2a1800 0%, var(--bg-color) 100%);
             border-bottom: 2px solid var(--accent-gold);
-            padding: 30px 0;
+            padding: 25px 0;
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
 
         .header-title {
@@ -37,68 +38,136 @@
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 2px;
-            text-shadow: 0 0 10px rgba(255, 183, 3, 0.3);
+            text-shadow: 0 0 12px rgba(255, 193, 7, 0.4);
         }
 
-        .bg-done { background-color: #198754; color: white; }
-        .bg-open { background-color: #6c757d; color: white; }
+        /* Khung thông báo sáng & rõ ràng */
+        .notice-box {
+            background-color: #1e232d;
+            border: 1px solid #3d4454;
+            color: #f0f4f8;
+            border-radius: 8px;
+            padding: 15px;
+        }
 
         .table-custom {
             background-color: var(--card-bg);
             border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            box-shadow: 0 4px 25px rgba(0,0,0,0.7);
             border: 1px solid var(--border-color);
         }
 
         .table-custom th {
-            background-color: #212529;
+            background-color: #111318;
             color: var(--accent-gold);
             border-bottom: 2px solid var(--border-color);
             vertical-align: middle;
             text-align: center;
+            font-size: 0.95rem;
+            padding: 12px 8px;
         }
 
         .table-custom td {
             vertical-align: middle;
             border-color: var(--border-color);
-            color: var(--text-main);
+            color: #ffffff;
+            padding: 10px 8px;
         }
 
-        .btn-upload {
-            background-color: var(--accent-gold);
-            color: #000;
+        /* Tinh chỉnh cột Giải 1, 2, 3 căn giữa chuẩn */
+        .reward-col {
+            text-align: center !important;
+        }
+
+        .reward-col .fg-amount {
+            color: #ffd166;
+            font-weight: 700;
+            font-size: 1.05rem;
+        }
+
+        .reward-col .winner-name {
+            font-weight: 700;
+            margin: 3px 0;
+            font-size: 0.95rem;
+        }
+
+        .reward-col .winner-name.has-winner {
+            color: #00f5d4;
+        }
+
+        .reward-col .winner-name.no-winner {
+            color: #ffaa00;
+        }
+
+        /* Badge Trạng thái nổi bật */
+        .badge-status-done {
+            background-color: #198754 !important;
+            color: #ffffff !important;
             font-weight: 600;
-            border: none;
-            transition: all 0.2s;
+            padding: 5px 10px;
         }
 
-        .btn-upload:hover {
-            background-color: #e0a100;
-            color: #000;
+        .badge-status-open {
+            background-color: #495057 !important;
+            color: #e9ecef !important;
+            font-weight: 600;
+            padding: 5px 10px;
         }
 
+        /* Danh sách bài nộp có tương phản cao */
         .submission-list {
-            max-height: 150px;
+            max-height: 140px;
             overflow-y: auto;
             font-size: 0.85rem;
         }
 
         .submission-item {
-            background: rgba(255,255,255,0.05);
-            padding: 4px 8px;
+            background: #232834;
+            border: 1px solid #343b4d;
+            padding: 6px 10px;
             margin-bottom: 4px;
             border-radius: 4px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            color: #ffffff;
+        }
+
+        .submission-item .sub-time {
+            color: #00d2ff;
+            font-size: 0.78rem;
         }
 
         .proof-link {
-            color: #64dfdf;
+            color: #00f5d4;
+            font-weight: 600;
             text-decoration: none;
+            background: rgba(0, 245, 212, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            border: 1px solid rgba(0, 245, 212, 0.3);
         }
-        .proof-link:hover { text-decoration: underline; }
+        .proof-link:hover { background: rgba(0, 245, 212, 0.25); color: #ffffff; }
+
+        .btn-upload {
+            background-color: var(--accent-gold);
+            color: #000;
+            font-weight: 700;
+            border: none;
+            width: 100%;
+            padding: 6px 12px;
+        }
+
+        .btn-upload:hover {
+            background-color: #ffaa00;
+            color: #000;
+        }
+
+        .text-note {
+            color: #c0c9d6;
+            font-size: 0.88rem;
+        }
     </style>
 </head>
 <body>
@@ -106,7 +175,7 @@
 <div class="header-banner">
     <div class="container">
         <h1 class="header-title"><i class="fa-solid fa-dragon"></i> EVENT MEDIAN XL MÙA 2.14</h1>
-        <p class="text-secondary mb-1">Cộng đồng Diablo 2 Median XL Việt Nam</p>
+        <p class="text-light mb-1">Cộng đồng Diablo 2 Median XL Việt Nam</p>
         <span class="badge bg-danger fs-6"><i class="fa-regular fa-clock"></i> Cập nhật thời gian thực từ Ban Quản Lý</span>
     </div>
 </div>
@@ -114,17 +183,17 @@
 <div class="container-fluid px-4">
 
     <!-- Thanh công cụ -->
-    <div class="row mb-4">
-        <div class="col-md-8">
-            <div class="alert alert-dark border-secondary d-flex align-items-center gap-3">
+    <div class="row mb-4 align-items-center">
+        <div class="col-md-8 mb-2 mb-md-0">
+            <div class="notice-box d-flex align-items-center gap-3">
                 <i class="fa-solid fa-circle-info text-warning fs-3"></i>
                 <div>
-                    <strong>Hướng dẫn cho Anh Em:</strong> Sau khi hoàn thành mốc, bấm nút <span class="badge bg-warning text-dark">Nộp</span> tương ứng. Ban quản lý sẽ đối soát theo thời gian tải lên sớm nhất và cập nhật danh sách trao giải!
+                    <strong class="text-warning">Hướng dẫn cho Anh Em:</strong> Sau khi hoàn thành mốc, bấm nút <span class="badge bg-warning text-dark">Nộp</span> tương ứng. Ban quản lý sẽ đối soát theo thời gian tải lên sớm nhất và cập nhật danh sách trao giải!
                 </div>
             </div>
         </div>
-        <div class="col-md-4 text-end d-flex align-items-center justify-content-end gap-2">
-            <button class="btn btn-outline-light" onclick="loadData()"><i class="fa-solid fa-rotate"></i> Làm mới dữ liệu</button>
+        <div class="col-md-4 text-end">
+            <button class="btn btn-warning fw-bold px-3 py-2" onclick="loadData()"><i class="fa-solid fa-rotate" id="refresh-icon"></i> Làm mới dữ liệu</button>
         </div>
     </div>
 
@@ -135,12 +204,12 @@
                 <tr>
                     <th style="width: 50px;">TT</th>
                     <th style="width: 230px;">NỘI DUNG MỐC SỰ KIỆN</th>
-                    <th>GIẢI 1 (ĐẦU TIÊN)</th>
-                    <th>GIẢI 2 (THỨ 2)</th>
-                    <th>GIẢI 3 (THỨ 3)</th>
-                    <th style="width: 260px;">DANH SÁCH ĐÃ NỘP BÀI</th>
-                    <th style="width: 120px;">HẠN / NGÀY TRAO</th>
-                    <th style="width: 180px;">GHI CHÚ</th>
+                    <th style="width: 140px;">GIẢI 1 (ĐẦU TIÊN)</th>
+                    <th style="width: 140px;">GIẢI 2 (THỨ 2)</th>
+                    <th style="width: 140px;">GIẢI 3 (THỨ 3)</th>
+                    <th style="width: 270px;">DANH SÁCH ĐÃ NỘP BÀI</th>
+                    <th style="width: 130px;">HẠN / NGÀY TRAO</th>
+                    <th style="width: 200px;">GHI CHÚ</th>
                     <th style="width: 110px;">THAO TÁC</th>
                 </tr>
             </thead>
@@ -148,7 +217,7 @@
                 <tr>
                     <td colspan="9" class="text-center py-5">
                         <div class="spinner-border text-warning" role="status"></div>
-                        <p class="mt-2 text-muted">Đang tải dữ liệu sự kiện Mùa 2.14...</p>
+                        <p class="mt-2 text-light fs-5">Đang tải dữ liệu sự kiện Mùa 2.14...</p>
                     </td>
                 </tr>
             </tbody>
@@ -168,20 +237,20 @@
                 <div class="modal-body">
                     <input type="hidden" id="modal-event-id">
                     <div class="mb-3">
-                        <label class="form-label text-secondary">Nội dung mốc:</label>
-                        <input type="text" class="form-control bg-secondary text-white border-0" id="modal-event-title" readonly>
+                        <label class="form-label text-light">Nội dung mốc:</label>
+                        <input type="text" class="form-control bg-secondary text-white border-0 fw-bold" id="modal-event-title" readonly>
                     </div>
                     <div class="mb-3">
-                        <label for="player-name" class="form-label">Tên Ingame (Fn / Account) <span class="text-danger">*</span></label>
+                        <label for="player-name" class="form-label text-light">Tên Ingame (Fn / Account) <span class="text-danger">*</span></label>
                         <input type="text" class="form-control bg-dark text-white border-secondary" id="player-name" placeholder="Ví dụ: kien1990" required>
                     </div>
                     <div class="mb-3">
-                        <label for="proof-file" class="form-label">Chọn Ảnh / Video minh chứng <span class="text-danger">*</span></label>
+                        <label for="proof-file" class="form-label text-light">Chọn Ảnh / Video minh chứng <span class="text-danger">*</span></label>
                         <input type="file" class="form-control bg-dark text-white border-secondary" id="proof-file" accept="image/*,video/*" required>
                         <div class="form-text text-muted">File sẽ được tự động lưu trữ vào Google Drive của BTC.</div>
                     </div>
                     <div class="mb-3">
-                        <label for="player-note" class="form-label">Ghi chú thêm (Không bắt buộc)</label>
+                        <label for="player-note" class="form-label text-light">Ghi chú thêm (Không bắt buộc)</label>
                         <input type="text" class="form-control bg-dark text-white border-secondary" id="player-note" placeholder="Ví dụ: Link Youtube nếu clip dài...">
                     </div>
                 </div>
@@ -204,6 +273,9 @@
     let eventData = [];
 
     async function loadData() {
+        const icon = document.getElementById('refresh-icon');
+        if(icon) icon.classList.add('fa-spin');
+        
         try {
             const res = await fetch(SCRIPT_URL + "?action=getEvents");
             const data = await res.json();
@@ -212,6 +284,8 @@
         } catch (err) {
             console.error("Lỗi tải dữ liệu:", err);
             renderDummyData();
+        } finally {
+            if(icon) icon.classList.remove('fa-spin');
         }
     }
 
@@ -219,24 +293,27 @@
         const tbody = document.getElementById('event-table-body');
         tbody.innerHTML = '';
 
-        const today = new Date().toISOString().split('T')[0]; // Lấy ngày hiện tại YYYY-MM-DD
+        const today = new Date().toISOString().split('T')[0]; 
 
         data.forEach(item => {
             const tr = document.createElement('tr');
             
-            // Xử lý danh sách bài nộp
+            // Xử lý danh sách bài nộp có tương phản màu chuẩn
             let submissionsHTML = '<div class="submission-list">';
             if(item.submissions && item.submissions.length > 0) {
                 item.submissions.forEach((sub, idx) => {
                     submissionsHTML += `
                         <div class="submission-item">
-                            <span><strong>${idx+1}. ${sub.playerName}</strong> <small class="text-muted">(${sub.time})</small></span>
+                            <div>
+                                <strong class="text-white">${idx+1}. ${sub.playerName}</strong>
+                                <div class="sub-time"><i class="fa-regular fa-clock"></i> ${sub.time}</div>
+                            </div>
                             <a href="${sub.proofUrl}" target="_blank" class="proof-link"><i class="fa-solid fa-eye"></i> Xem</a>
                         </div>
                     `;
                 });
             } else {
-                submissionsHTML += '<span class="text-muted italic"><small>Chưa có bài nộp</small></span>';
+                submissionsHTML += '<span class="text-muted"><small><i>Chưa có bài nộp</i></small></span>';
             }
             submissionsHTML += '</div>';
 
@@ -247,35 +324,42 @@
                 isExpired = true;
             }
 
-            // Nút nộp bài (Khóa nếu hết hạn)
+            // Nút nộp bài
             let actionBtnHTML = '';
             if (isExpired) {
-                actionBtnHTML = `<button class="btn btn-sm btn-secondary disabled"><i class="fa-solid fa-lock"></i> Hết hạn</button>`;
+                actionBtnHTML = `<button class="btn btn-sm btn-secondary w-100 disabled" style="opacity: 0.6;"><i class="fa-solid fa-lock"></i> Hết hạn</button>`;
             } else {
                 actionBtnHTML = `<button class="btn btn-sm btn-upload" onclick="openUploadModal('${item.id}', '${item.title}')"><i class="fa-solid fa-upload"></i> Nộp</button>`;
             }
 
             tr.innerHTML = `
-                <td class="text-center font-monospace">${item.tt}</td>
-                <td class="fw-bold">${item.title}</td>
-                <td>
-                    <div><strong>${item.r1_reward || ''} FG</strong></div>
-                    <div class="${item.r1_status === 'Đã trao' ? 'text-success' : 'text-warning'} fw-bold">${item.r1_winner || '---'}</div>
-                    <span class="badge ${item.r1_status === 'Đã trao' ? 'bg-done' : 'bg-open'}">${item.r1_status || 'Chưa trao'}</span>
+                <td class="text-center font-monospace fw-bold">${item.tt}</td>
+                <td class="fw-bold text-white fs-6">${item.title}</td>
+                
+                <!-- Cột Giải 1 Căn Giữa -->
+                <td class="reward-col">
+                    <div class="fg-amount">${item.r1_reward ? item.r1_reward + ' FG' : ''}</div>
+                    <div class="winner-name ${item.r1_winner ? 'has-winner' : 'no-winner'}">${item.r1_winner || '---'}</div>
+                    <span class="badge ${item.r1_status === 'Đã trao' ? 'badge-status-done' : 'badge-status-open'}">${item.r1_status || 'Chưa trao'}</span>
                 </td>
-                <td>
-                    <div><strong>${item.r2_reward || ''} FG</strong></div>
-                    <div class="${item.r2_status === 'Đã trao' ? 'text-success' : 'text-warning'} fw-bold">${item.r2_winner || '---'}</div>
-                    <span class="badge ${item.r2_status === 'Đã trao' ? 'bg-done' : 'bg-open'}">${item.r2_status || 'Chưa trao'}</span>
+                
+                <!-- Cột Giải 2 Căn Giữa -->
+                <td class="reward-col">
+                    <div class="fg-amount">${item.r2_reward ? item.r2_reward + ' FG' : ''}</div>
+                    <div class="winner-name ${item.r2_winner ? 'has-winner' : 'no-winner'}">${item.r2_winner || '---'}</div>
+                    <span class="badge ${item.r2_status === 'Đã trao' ? 'badge-status-done' : 'badge-status-open'}">${item.r2_status || 'Chưa trao'}</span>
                 </td>
-                <td>
-                    <div><strong>${item.r3_reward || ''} FG</strong></div>
-                    <div class="${item.r3_status === 'Đã trao' ? 'text-success' : 'text-warning'} fw-bold">${item.r3_winner || '---'}</div>
-                    <span class="badge ${item.r3_status === 'Đã trao' ? 'bg-done' : 'bg-open'}">${item.r3_status || 'Chưa trao'}</span>
+                
+                <!-- Cột Giải 3 Căn Giữa -->
+                <td class="reward-col">
+                    <div class="fg-amount">${item.r3_reward ? item.r3_reward + ' FG' : ''}</div>
+                    <div class="winner-name ${item.r3_winner ? 'has-winner' : 'no-winner'}">${item.r3_winner || '---'}</div>
+                    <span class="badge ${item.r3_status === 'Đã trao' ? 'badge-status-done' : 'badge-status-open'}">${item.r3_status || 'Chưa trao'}</span>
                 </td>
+                
                 <td>${submissionsHTML}</td>
-                <td class="text-center"><span class="badge ${isExpired ? 'bg-danger' : 'bg-info text-dark'}">${dateDisplay}</span></td>
-                <td><small class="text-secondary">${item.note || ''}</small></td>
+                <td class="text-center"><span class="badge ${isExpired ? 'bg-danger text-white' : 'bg-info text-dark fw-bold'}">${dateDisplay}</span></td>
+                <td><span class="text-note">${item.note || ''}</span></td>
                 <td class="text-center">${actionBtnHTML}</td>
             `;
             tbody.appendChild(tr);
@@ -289,12 +373,21 @@
                 r1_reward: 80, r1_winner: "kien1990", r1_status: "Đã trao",
                 r2_reward: 50, r2_winner: "ensiferumlism", r2_status: "Đã trao",
                 r3_reward: 30, r3_winner: "rosex", r3_status: "Đã trao",
-                endDate: "2026-05-10",
+                endDate: "2026-09-24",
                 submissions: [
-                    { playerName: "kien1990", time: "25/04 01:15", proofUrl: "#" },
-                    { playerName: "ensiferumlism", time: "25/04 02:00", proofUrl: "#" }
+                    { playerName: "vanngancabg", time: "05/08 10:22", proofUrl: "#" },
+                    { playerName: "gfbsdfb", time: "05/08 10:41", proofUrl: "#" }
                 ],
-                note: "Charm Teganze 120"
+                note: "Là charm cần farm và giết boss map Teganze 120"
+            },
+            {
+                id: "2", tt: 2, title: "Có Charm bò Fool's Gold (tổng điểm 120+)",
+                r1_reward: 50, r1_winner: "", r1_status: "Chưa trao",
+                r2_reward: "", r2_winner: "", r2_status: "Chưa trao",
+                r3_reward: "", r3_winner: "", r3_status: "Chưa trao",
+                endDate: "",
+                submissions: [],
+                note: "Là charm boss bò 115"
             }
         ];
         renderTable(mockData);
