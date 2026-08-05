@@ -98,7 +98,6 @@
             color: #ffaa00;
         }
 
-        /* Trạng thái Đã trao: Xanh lá đậm nổi bật */
         .badge-status-done {
             background-color: #198754 !important;
             color: #ffffff !important;
@@ -108,7 +107,6 @@
             box-shadow: 0 0 8px rgba(25, 135, 84, 0.5);
         }
 
-        /* Trạng thái Chưa có người đạt: Màu xám trung tính */
         .badge-status-open {
             background-color: #343a40 !important;
             color: #adb5bd !important;
@@ -291,7 +289,6 @@
         }
     }
 
-    // Hàm căn chỉnh hiển thị trạng thái theo đúng yêu cầu mới
     function formatRewardCell(reward, winner, status) {
         if (!reward && !winner) {
             return '<span class="text-muted">---</span>';
@@ -311,6 +308,28 @@
             <div class="winner-name ${winner ? 'has-winner' : 'no-winner'}">${winner || '---'}</div>
             ${statusBadge}
         `;
+    }
+
+    // Hàm kiểm tra xem mốc đã hoàn thành trao hết tất cả các giải khả dụng chưa
+    function checkAllRewardsCompleted(item) {
+        let totalRewards = 0;
+        let completedRewards = 0;
+
+        if (item.r1_reward) {
+            totalRewards++;
+            if (item.r1_status === 'Đã trao') completedRewards++;
+        }
+        if (item.r2_reward) {
+            totalRewards++;
+            if (item.r2_status === 'Đã trao') completedRewards++;
+        }
+        if (item.r3_reward) {
+            totalRewards++;
+            if (item.r3_status === 'Đã trao') completedRewards++;
+        }
+
+        // Nếu mốc có cài giải và số giải đã trao bằng tổng số giải khả dụng
+        return (totalRewards > 0) && (totalRewards === completedRewards);
     }
 
     function renderTable(data) {
@@ -341,17 +360,22 @@
             }
             submissionsHTML += '</div>';
 
-            // Kiểm tra xem đã hết hạn hay chưa
+            // 1. Kiểm tra hết hạn ngày
             let isExpired = false;
             let dateDisplay = item.endDate || 'Chưa chốt';
             if (item.endDate && item.endDate < today) {
                 isExpired = true;
             }
 
-            // Nút nộp bài
+            // 2. Kiểm tra đã trao hết giải chưa
+            let isAllCompleted = checkAllRewardsCompleted(item);
+
+            // Xử lý nút Nộp
             let actionBtnHTML = '';
             if (isExpired) {
                 actionBtnHTML = `<button class="btn btn-sm btn-secondary w-100 disabled" style="opacity: 0.6;"><i class="fa-solid fa-lock"></i> Hết hạn</button>`;
+            } else if (isAllCompleted) {
+                actionBtnHTML = `<button class="btn btn-sm btn-secondary w-100 disabled" style="opacity: 0.6;"><i class="fa-solid fa-circle-check"></i> Đã đủ giải</button>`;
             } else {
                 actionBtnHTML = `<button class="btn btn-sm btn-upload" onclick="openUploadModalByIndex(${index})"><i class="fa-solid fa-upload"></i> Nộp</button>`;
             }
