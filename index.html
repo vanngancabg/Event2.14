@@ -285,7 +285,6 @@
         }
     }
 
-    // Hàm kiểm tra và xử lý ẩn ô giải trống
     function formatRewardCell(reward, winner, status) {
         if (!reward && !winner) {
             return '<span class="text-muted">---</span>';
@@ -340,19 +339,21 @@
                 isExpired = true;
             }
 
+            // Mã hóa an toàn chuỗi tên mốc để tránh lỗi khi có chứa dấu nháy đơn (')
+            const safeTitle = (item.title || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+
             // Nút nộp bài
             let actionBtnHTML = '';
             if (isExpired) {
                 actionBtnHTML = `<button class="btn btn-sm btn-secondary w-100 disabled" style="opacity: 0.6;"><i class="fa-solid fa-lock"></i> Hết hạn</button>`;
             } else {
-                actionBtnHTML = `<button class="btn btn-sm btn-upload" onclick="openUploadModal('${item.id}', '${item.title}')"><i class="fa-solid fa-upload"></i> Nộp</button>`;
+                actionBtnHTML = `<button class="btn btn-sm btn-upload" onclick="openUploadModal('${item.id}', '${safeTitle}')"><i class="fa-solid fa-upload"></i> Nộp</button>`;
             }
 
             tr.innerHTML = `
                 <td class="text-center font-monospace fw-bold">${item.tt}</td>
                 <td class="fw-bold text-white fs-6">${item.title}</td>
                 
-                <!-- Tự động ẩn chi tiết nếu giải không có thưởng -->
                 <td class="reward-col">${formatRewardCell(item.r1_reward, item.r1_winner, item.r1_status)}</td>
                 <td class="reward-col">${formatRewardCell(item.r2_reward, item.r2_winner, item.r2_status)}</td>
                 <td class="reward-col">${formatRewardCell(item.r3_reward, item.r3_winner, item.r3_status)}</td>
@@ -364,33 +365,6 @@
             `;
             tbody.appendChild(tr);
         });
-    }
-
-    function renderDummyData() {
-        const mockData = [
-            {
-                id: "1", tt: 1, title: "Có Charm Umbaru (tổng 4 chỉ số 200+)",
-                r1_reward: 80, r1_winner: "kien1990", r1_status: "Đã trao",
-                r2_reward: 50, r2_winner: "ensiferumlism", r2_status: "Đã trao",
-                r3_reward: 30, r3_winner: "rosex", r3_status: "Đã trao",
-                endDate: "2026-09-24",
-                submissions: [
-                    { playerName: "vanngancabg", time: "05/08 10:22", proofUrl: "#" },
-                    { playerName: "gfbsdfb", time: "05/08 10:41", proofUrl: "#" }
-                ],
-                note: "Là charm cần farm và giết boss map Teganze 120"
-            },
-            {
-                id: "2", tt: 2, title: "Có Charm bò Fool's Gold (tổng điểm 120+)",
-                r1_reward: 50, r1_winner: "", r1_status: "Chưa trao",
-                r2_reward: "", r2_winner: "", r2_status: "",
-                r3_reward: "", r3_winner: "", r3_status: "",
-                endDate: "",
-                submissions: [],
-                note: "Là charm boss bò 115"
-            }
-        ];
-        renderTable(mockData);
     }
 
     function openUploadModal(eventId, title) {
