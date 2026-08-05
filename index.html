@@ -80,7 +80,7 @@
             text-align: center !important;
         }
 
-        .reward-col .fg-amount {
+        .reward-col .tg-amount {
             color: #ffd166;
             font-weight: 700;
             font-size: 1.05rem;
@@ -298,7 +298,7 @@
         data.forEach(item => {
             const tr = document.createElement('tr');
             
-            // Xử lý danh sách bài nộp có tương phản màu chuẩn
+            // Xử lý danh sách bài nộp
             let submissionsHTML = '<div class="submission-list">';
             if(item.submissions && item.submissions.length > 0) {
                 item.submissions.forEach((sub, idx) => {
@@ -338,21 +338,21 @@
                 
                 <!-- Cột Giải 1 Căn Giữa -->
                 <td class="reward-col">
-                    <div class="fg-amount">${item.r1_reward ? item.r1_reward + ' FG' : ''}</div>
+                    <div class="tg-amount">${item.r1_reward ? item.r1_reward + ' TG' : ''}</div>
                     <div class="winner-name ${item.r1_winner ? 'has-winner' : 'no-winner'}">${item.r1_winner || '---'}</div>
                     <span class="badge ${item.r1_status === 'Đã trao' ? 'badge-status-done' : 'badge-status-open'}">${item.r1_status || 'Chưa trao'}</span>
                 </td>
                 
                 <!-- Cột Giải 2 Căn Giữa -->
                 <td class="reward-col">
-                    <div class="fg-amount">${item.r2_reward ? item.r2_reward + ' FG' : ''}</div>
+                    <div class="tg-amount">${item.r2_reward ? item.r2_reward + ' TG' : ''}</div>
                     <div class="winner-name ${item.r2_winner ? 'has-winner' : 'no-winner'}">${item.r2_winner || '---'}</div>
                     <span class="badge ${item.r2_status === 'Đã trao' ? 'badge-status-done' : 'badge-status-open'}">${item.r2_status || 'Chưa trao'}</span>
                 </td>
                 
                 <!-- Cột Giải 3 Căn Giữa -->
                 <td class="reward-col">
-                    <div class="fg-amount">${item.r3_reward ? item.r3_reward + ' FG' : ''}</div>
+                    <div class="tg-amount">${item.r3_reward ? item.r3_reward + ' TG' : ''}</div>
                     <div class="winner-name ${item.r3_winner ? 'has-winner' : 'no-winner'}">${item.r3_winner || '---'}</div>
                     <span class="badge ${item.r3_status === 'Đã trao' ? 'badge-status-done' : 'badge-status-open'}">${item.r3_status || 'Chưa trao'}</span>
                 </td>
@@ -379,15 +379,6 @@
                     { playerName: "gfbsdfb", time: "05/08 10:41", proofUrl: "#" }
                 ],
                 note: "Là charm cần farm và giết boss map Teganze 120"
-            },
-            {
-                id: "2", tt: 2, title: "Có Charm bò Fool's Gold (tổng điểm 120+)",
-                r1_reward: 50, r1_winner: "", r1_status: "Chưa trao",
-                r2_reward: "", r2_winner: "", r2_status: "Chưa trao",
-                r3_reward: "", r3_winner: "", r3_status: "Chưa trao",
-                endDate: "",
-                submissions: [],
-                note: "Là charm boss bò 115"
             }
         ];
         renderTable(mockData);
