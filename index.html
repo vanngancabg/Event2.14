@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SỰ KIỆN MEDIAN XL MÙA 2.14 - CỘNG ĐỒNG D2VN</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=8bnSlnWzhAJnhq_Y3i0fCzETWeCT2byIqAXK9fP-bDBeHnuGXAIGoikbfrMDJVlyY4MJf8RQ2JvUbEOgSufYdyM6P5i6-EiNOGzXyZJj4YqnBs_R7EzGtHfnF50jBd4KXfcOkbDFL_4_LpcGMAADif4V162AJ3SvWZqzMW7mpgVXn_4tFzlJ_ENARYcAaCr-2BsPUQGejmTzk_U3E42-s7Uo4weAWzuAg8ysxXNNlinrHoBTmKOe5m6IXFkSyEfgtbpLIVsGBGcoSU2bKYAOXZIUc2e-5K6P0qjVR1pBt7Yc8-BGzkqLpgj29-KCtz-H" charset="UTF-8"></script><link rel="stylesheet" crossorigin="anonymous" href="https://gc.kis.v2.scr.kaspersky-labs.com/E3E8934C-235A-4B0E-825A-35A08381A191/abn/main.css?attr=aHR0cHM6Ly9jb250cmlidXRpb24udXNlcmNvbnRlbnQuZ29vZ2xlLmNvbS9kb3dubG9hZD9jPUNneGlZWEprWDNOMGIzSmhaMlVTVUJJTmNtVnpjRzl1YzJWZlpHRjBZUm9fQ2pBd1pXSTBaak16WldJNU9EWXlaV05tTURBd05qVTRORE5qWVdFNVl6RmlOREF4WVdZNVlUUmlPR1l4TlRJMlptVVNDeElIRUlLYTB0V3NHQmdCJmZpbGVuYW1lPWluZGV4Lmh0bWwmb3BpPTEwMzEzNTA1MA"/><style>
+        :root {
+            --bg-color: #0f1115;
+            --card-bg: #181b20;
+            --accent-gold: #ffb703;
+            --accent-green: #2ec4b6;
+            --accent-red: #e63946;
+            --text-main: #e0e6ed;
+            --border-color: #2a2e37;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding-bottom: 50px;
+        }
+
+        .header-banner {
+            background: linear-gradient(180deg, #1f1208 0%, var(--bg-color) 100%);
+            border-bottom: 2px solid var(--accent-gold);
+            padding: 30px 0;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header-title {
+            color: var(--accent-gold);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(255, 183, 3, 0.3);
+        }
+
+        .status-badge {
+            font-size: 0.85rem;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .bg-done { background-color: #198754; color: white; }
+        .bg-pending { background-color: #ffc107; color: black; }
+        .bg-open { background-color: #6c757d; color: white; }
+
+        .table-custom {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            border: 1px solid var(--border-color);
+        }
+
+        .table-custom th {
+            background-color: #212529;
+            color: var(--accent-gold);
+            border-bottom: 2px solid var(--border-color);
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .table-custom td {
+            vertical-align: middle;
+            border-color: var(--border-color);
+            color: var(--text-main);
+        }
+
+        .btn-upload {
+            background-color: var(--accent-gold);
+            color: #000;
+            font-weight: 600;
+            border: none;
+            transition: all 0.2s;
+        }
+
+        .btn-upload:hover {
+            background-color: #e0a100;
+            color: #000;
+            transform: translateY(-2px);
+        }
+
+        .submission-list {
+            max-height: 150px;
+            overflow-y: auto;
+            font-size: 0.85rem;
+        }
+
+        .submission-item {
+            background: rgba(255,255,255,0.05);
+            padding: 4px 8px;
+            margin-bottom: 4px;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .proof-link {
+            color: #64dfdf;
+            text-decoration: none;
+        }
+        .proof-link:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+<div class="header-banner">
+    <div class="container">
+        <h1 class="header-title"><i class="fa-solid => fa-dragon"></i> EVENT MEDIAN XL MÙA 2.14</h1>
+        <p class="text-secondary mb-1">Cộng đồng Diablo 2 Median XL Việt Nam</p>
+        <span class="badge bg-danger fs-6"><i class="fa-regular fa-clock"></i> Thời gian bắt đầu: Cập nhật theo Mùa giải</span>
+    </div>
+</div>
+
+<div class="container-fluid px-4">
+
+    <!-- Thanh công cụ & Thống kê -->
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <div class="alert alert-dark border-secondary d-flex align-items-center gap-3">
+                <i class="fa-solid fa-circle-info text-warning fs-3"></i>
+                <div>
+                    <strong>Hướng dẫn cho Anh Em:</strong> Sau khi hoàn thành mốc, bấm nút <span class="badge bg-warning text-dark">Nộp Bài</span> tương ứng. Ban quản lý sẽ đối soát theo thời gian tải lên sớm nhất và cập nhật danh sách trao giải!
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 text-end d-flex align-items-center justify-content-end gap-2">
+            <button class="btn btn-outline-light" onclick="loadData()"><i class="fa-solid fa-rotate"></i> Làm mới dữ liệu</button>
+            <a href="#" id="sheet-link" target="_blank" class="btn btn-outline-success"><i class="fa-solid fa-file-excel"></i> Xem Bảng Master Sheet</a>
+        </div>
+    </div>
+
+    <!-- Bảng sự kiện chính -->
+    <div class="table-responsive">
+        <table class="table table-dark table-hover table-bordered table-custom align-middle">
+            <thead>
+                <tr>
+                    <th style="width: 50px;">TT</th>
+                    <th style="width: 250px;">NỘI DUNG MỐC SỰ KIỆN</th>
+                    <th>GIẢI 1 (ĐẦU TIÊN)</th>
+                    <th>GIẢI 2 (THỨ 2)</th>
+                    <th>GIẢI 3 (THỨ 3)</th>
+                    <th style="width: 280px;">DANH SÁCH ANH EM ĐÃ NỘP BÀI</th>
+                    <th style="width: 220px;">GHI CHÚ</th>
+                    <th style="width: 100px;">THAO TÁC</th>
+                </tr>
+            </thead>
+            <tbody id="event-table-body">
+                <!-- Nội dung sẽ được nạp tự động qua JavaScript từ Google Sheet -->
+                <tr>
+                    <td colspan="8" class="text-center py-5">
+                        <div class="spinner-border text-warning" role="status"></div>
+                        <p class="mt-2 text-muted">Đang tải dữ liệu sự kiện Mùa 2.14...</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal Nộp Bài -->
+<div class="modal fade" id="uploadModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-light border-secondary">
+            <div class="modal-header border-secondary">
+                <h5 class="modal-title text-warning"><i class="fa-solid fa-cloud-arrow-up"></i> NỘP MINH CHỨNG HOÀN THÀNH</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="uploadForm">
+                <div class="modal-body">
+                    <input type="hidden" id="modal-event-id">
+                    <div class="mb-3">
+                        <label class="form-label text-secondary">Nội dung mốc:</label>
+                        <input type="text" class="form-value form-control bg-secondary text-white border-0" id="modal-event-title" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="player-name" class="form-label">Tên Ingame (Fn / Account) <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control bg-dark text-white border-secondary" id="player-name" placeholder="Ví dụ: kien1990" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="proof-file" class="form-label">Chọn Ảnh / Video minh chứng <span class="text-danger">*</span></label>
+                        <input type="file" class="form-control bg-dark text-white border-secondary" id="proof-file" accept="image/*,video/*" required>
+                        <div class="form-text text-muted">File sẽ được tự động lưu trữ vào Google Drive của BTC.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="player-note" class="form-label">Ghi chú thêm (Không bắt buộc)</label>
+                        <input type="text" class="form-control bg-dark text-white border-secondary" id="player-note" placeholder="Ví dụ: Link Youtube nếu clip dài...">
+                    </div>
+                </div>
+                <div class="modal-footer border-secondary">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-upload" id="btn-submit-upload">
+                        <i class="fa-solid fa-paper-plane"></i> Tải Lên Minh Chứng
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Dán URL Web App Google Apps Script của bạn vào đây:
+    const SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL";
+
+    let eventData = [];
+
+    async function loadData() {
+        try {
+            const res = await fetch(SCRIPT_URL + "?action=getEvents");
+            const data = await res.json();
+            eventData = data;
+            renderTable(data);
+        } catch (err) {
+            console.error("Lỗi tải dữ liệu:", err);
+            // Hiển thị dữ liệu mẫu nếu chưa gắn Apps Script
+            renderDummyData();
+        }
+    }
+
+    function renderTable(data) {
+        const tbody = document.getElementById('event-table-body');
+        tbody.innerHTML = '';
+
+        data.forEach(item => {
+            const tr = document.createElement('tr');
+            
+            // Xử lý render danh sách người nộp bài
+            let submissionsHTML = '<div class="submission-list">';
+            if(item.submissions && item.submissions.length > 0) {
+                item.submissions.forEach((sub, idx) => {
+                    submissionsHTML += `
+                        <div class="submission-item">
+                            <span><strong>${idx+1}. ${sub.playerName}</strong> <small class="text-muted">(${sub.time})</small></span>
+                            <a href="${sub.proofUrl}" target="_blank" class="proof-link"><i class="fa-solid fa-eye"></i> Xem</a>
+                        </div>
+                    `;
+                });
+            } else {
+                submissionsHTML += '<span class="text-muted italic"><small>Chưa có ai nộp</small></span>';
+            }
+            submissionsHTML += '</div>';
+
+            tr.innerHTML = `
+                <td class="text-center font-monospace">${item.tt}</td>
+                <td class="fw-bold">${item.title}</td>
+                <td>
+                    <div><strong>${item.r1_reward || ''} FG</strong></div>
+                    <div class="${item.r1_status === 'Đã trao' ? 'text-success' : 'text-warning'} fw-bold">${item.r1_winner || '---'}</div>
+                    <span class="badge ${item.r1_status === 'Đã trao' ? 'bg-done' : 'bg-open'}">${item.r1_status || 'Chưa mở'}</span>
+                </td>
+                <td>
+                    <div><strong>${item.r2_reward || ''} FG</strong></div>
+                    <div class="${item.r2_status === 'Đã trao' ? 'text-success' : 'text-warning'} fw-bold">${item.r2_winner || '---'}</div>
+                    <span class="badge ${item.r2_status === 'Đã trao' ? 'bg-done' : 'bg-open'}">${item.r2_status || 'Chưa mở'}</span>
+                </td>
+                <td>
+                    <div><strong>${item.r3_reward || ''} FG</strong></div>
+                    <div class="${item.r3_status === 'Đã trao' ? 'text-success' : 'text-warning'} fw-bold">${item.r3_winner || '---'}</div>
+                    <span class="badge ${item.r3_status === 'Đã trao' ? 'bg-done' : 'bg-open'}">${item.r3_status || 'Chưa mở'}</span>
+                </td>
+                <td>${submissionsHTML}</td>
+                <td><small class="text-secondary">${item.note || ''}</small></td>
+                <td class="text-center">
+                    <button class="btn btn-sm btn-upload" onclick="openUploadModal('${item.id}', '${item.title}')">
+                        <i class="fa-solid fa-upload"></i> Nộp
+                    </button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    function renderDummyData() {
+        // Mockup dữ liệu giống trong ảnh Mùa 2.13
+        const mockData = [
+            {
+                id: "1", tt: 1, title: "Có Charm Umbaru (tổng 4 chỉ số 200+)",
+                r1_reward: 80, r1_winner: "kien1990", r1_status: "Đã trao",
+                r2_reward: 50, r2_winner: "ensiferumlism", r2_status: "Đã trao",
+                r3_reward: 30, r3_winner: "rosex", r3_status: "Đã trao",
+                submissions: [
+                    { playerName: "kien1990", time: "25/04 01:15", proofUrl: "#" },
+                    { playerName: "ensiferumlism", time: "25/04 02:00", proofUrl: "#" },
+                    { playerName: "rosex", time: "25/04 03:20", proofUrl: "#" }
+                ],
+                note: "Charm Teganze 120"
+            },
+            {
+                id: "2", tt: 2, title: "Giết Samael",
+                r1_reward: 100, r1_winner: "igponngo977", r1_status: "Đã trao",
+                r2_reward: 80, r2_winner: "teobeo", r2_status: "Đã trao",
+                r3_reward: 50, r3_winner: "Chưa có", r3_status: "Chưa trao",
+                submissions: [
+                    { playerName: "igponngo977", time: "26/04 10:00", proofUrl: "#" },
+                    { playerName: "teobeo", time: "26/04 11:30", proofUrl: "#" },
+                    { playerName: "member_xyz", time: "26/04 14:10", proofUrl: "#" }
+                ],
+                note: "Boss 135 (không cần làm nhiệm vụ)"
+            }
+        ];
+        renderTable(mockData);
+    }
+
+    function openUploadModal(eventId, title) {
+        document.getElementById('modal-event-id').value = eventId;
+        document.getElementById('modal-event-title').value = title;
+        var uploadModal = new bootstrap.Modal(document.getElementById('uploadModal'));
+        uploadModal.show();
+    }
+
+    document.getElementById('uploadForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const submitBtn = document.getElementById('btn-submit-upload');
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Đang tải lên...';
+
+        const fileInput = document.getElementById('proof-file');
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function(evt) {
+            const payload = {
+                action: "submitProof",
+                eventId: document.getElementById('modal-event-id').value,
+                playerName: document.getElementById('player-name').value,
+                note: document.getElementById('player-note').value,
+                fileName: file.name,
+                mimeType: file.type,
+                fileData: evt.target.result.split(',')[1] // Base64
+            };
+
+            fetch(SCRIPT_URL, {
+                method: "POST",
+                body: JSON.stringify(payload)
+            })
+            .then(res => res.json())
+            .then(res => {
+                alert("Nộp minh chứng thành công! Cảm ơn anh em.");
+                location.reload();
+            })
+            .catch(err => {
+                alert("Có lỗi xảy ra khi tải file lên. Vui lòng thử lại!");
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Tải Lên Minh Chứng';
+            });
+        };
+
+        reader.readAsDataURL(file);
+    });
+
+    window.onload = loadData;
+</script>
+</body>
+</html>
