@@ -74,22 +74,9 @@
             padding: 10px 8px;
         }
 
-        .reward-col {
-            text-align: center !important;
-        }
-
-        .reward-col .tg-amount {
-            color: #ffd166;
-            font-weight: 700;
-            font-size: 1.05rem;
-        }
-
-        .reward-col .winner-name {
-            font-weight: 700;
-            margin: 3px 0;
-            font-size: 0.95rem;
-        }
-
+        .reward-col { text-align: center !important; }
+        .reward-col .tg-amount { color: #ffd166; font-weight: 700; font-size: 1.05rem; }
+        .reward-col .winner-name { font-weight: 700; margin: 3px 0; font-size: 0.95rem; }
         .reward-col .winner-name.has-winner { color: #00f5d4; }
         .reward-col .winner-name.no-winner { color: #ffaa00; }
 
@@ -129,10 +116,7 @@
             color: #ffffff;
         }
 
-        .submission-item .sub-time {
-            color: #00d2ff;
-            font-size: 0.78rem;
-        }
+        .submission-item .sub-time { color: #00d2ff; font-size: 0.78rem; }
 
         .proof-link {
             color: #00f5d4;
@@ -154,17 +138,9 @@
             padding: 6px 12px;
         }
 
-        .btn-upload:hover {
-            background-color: #ffaa00;
-            color: #000;
-        }
+        .btn-upload:hover { background-color: #ffaa00; color: #000; }
+        .text-note { color: #c0c9d6; font-size: 0.88rem; }
 
-        .text-note {
-            color: #c0c9d6;
-            font-size: 0.88rem;
-        }
-
-        /* Nút Chuông Báo Admin */
         .btn-notification {
             position: relative;
             background-color: #2b303c;
@@ -173,10 +149,7 @@
             font-weight: 700;
         }
 
-        .btn-notification:hover {
-            background-color: #383f4f;
-            color: #ffca2c;
-        }
+        .btn-notification:hover { background-color: #383f4f; color: #ffca2c; }
 
         .badge-unread-count {
             position: absolute;
@@ -215,7 +188,6 @@
             </div>
         </div>
         <div class="col-md-5 text-end d-flex align-items-center justify-content-end gap-2">
-            <!-- Nút Chuông Báo dành riêng cho Admin (Ẩn mặc định) -->
             <div id="admin-notification-container" style="display: none;">
                 <button class="btn btn-notification px-3 py-2" onclick="openNotificationModal()">
                     <i class="fa-solid fa-bell"></i> Bài nộp mới 
@@ -264,8 +236,8 @@
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <p class="text-muted"><small>Dưới đây là danh sách anh em vừa nộp bài. Bạn có thể bấm [Xem] để kiểm tra minh chứng.</small></p>
-                <div id="unread-submissions-list" class="d-flex flex-column gap-2" style="max-height: 350px; overflow-y: auto;">
+                <p class="text-muted"><small>Bấm [Xem] để kiểm tra file. Sau khi kiểm tra xong, bấm [Đã duyệt] để xóa dòng đó khỏi danh sách này.</small></p>
+                <div id="unread-submissions-list" class="d-flex flex-column gap-2" style="max-height: 380px; overflow-y: auto;">
                     <!-- Nạp bài nộp chưa đọc -->
                 </div>
             </div>
@@ -325,7 +297,6 @@
     let eventData = [];
     let unreadSubmissions = [];
 
-    // Kiểm tra xem link có đính kèm đuôi ?admin=123 hay không
     const urlParams = new URLSearchParams(window.location.search);
     const isAdmin = urlParams.has('admin');
 
@@ -352,7 +323,6 @@
         }
     }
 
-    // Xử lý thông báo bài nộp mới chưa đọc dành cho Admin
     function processNotifications(data) {
         if (!isAdmin) return;
 
@@ -380,11 +350,18 @@
     }
 
     function openNotificationModal() {
+        renderNotificationList();
+        var modal = new bootstrap.Modal(document.getElementById('notificationModal'));
+        modal.show();
+    }
+
+    function renderNotificationList() {
         const container = document.getElementById('unread-submissions-list');
         container.innerHTML = '';
 
         if (unreadSubmissions.length === 0) {
             container.innerHTML = '<div class="alert alert-dark text-center">Không có bài nộp mới nào chưa đọc!</div>';
+            document.getElementById('unread-count').innerText = '0';
         } else {
             unreadSubmissions.forEach(sub => {
                 const item = document.createElement('div');
@@ -395,14 +372,30 @@
                         <strong class="text-white">${sub.playerName}</strong>
                         <small class="text-info ms-2">(${sub.time})</small>
                     </div>
-                    <a href="${sub.proofUrl}" target="_blank" class="proof-link"><i class="fa-solid fa-eye"></i> Xem Minh Chứng</a>
+                    <div class="d-flex gap-2">
+                        <a href="${sub.proofUrl}" target="_blank" class="proof-link"><i class="fa-solid fa-eye"></i> Xem</a>
+                        <button class="btn btn-sm btn-success fw-bold" onclick="markSingleAsRead('${sub.id}')"><i class="fa-solid fa-check"></i> Đã duyệt</button>
+                    </div>
                 `;
                 container.appendChild(item);
             });
+            document.getElementById('unread-count').innerText = unreadSubmissions.length;
         }
+    }
 
-        var modal = new bootstrap.Modal(document.getElementById('notificationModal'));
-        modal.show();
+    // Xóa từng trường hợp đã check
+    function markSingleAsRead(subId) {
+        const readSubmissions = JSON.parse(localStorage.getItem('mxl_read_submissions') || '[]');
+        if (!readSubmissions.includes(subId)) {
+            readSubmissions.push(subId);
+        }
+        localStorage.setItem('mxl_read_submissions', JSON.stringify(readSubmissions));
+
+        // Loại bỏ bài vừa bấm khỏi danh sách chờ
+        unreadSubmissions = unreadSubmissions.filter(item => item.id !== subId);
+        
+        // Vẽ lại danh sách thông báo
+        renderNotificationList();
     }
 
     function markAllAsRead() {
@@ -415,13 +408,11 @@
 
         localStorage.setItem('mxl_read_submissions', JSON.stringify(readSubmissions));
         unreadSubmissions = [];
-        document.getElementById('unread-count').innerText = '0';
+        renderNotificationList();
         
         var modalElement = document.getElementById('notificationModal');
         var modal = bootstrap.Modal.getInstance(modalElement);
         if(modal) modal.hide();
-
-        alert("Đã xóa thông báo mới thành công!");
     }
 
     function formatRewardCell(reward, winner, status) {
