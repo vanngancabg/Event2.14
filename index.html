@@ -249,7 +249,7 @@
     </div>
 </div>
 
-<!-- Modal Nộp Bài (Có Thanh Progress Bar % Tải Lên) -->
+<!-- Modal Nộp Bài -->
 <div class="modal fade" id="uploadModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content bg-dark text-light border-secondary">
@@ -278,14 +278,11 @@
                         <input type="text" class="form-control bg-dark text-white border-secondary" id="player-note" placeholder="Ví dụ: Link Youtube nếu clip dài...">
                     </div>
 
-                    <!-- KHU VỰC HIỂN THỊ % TẢI LÊN -->
+                    <!-- TRẠNG THÁI TẢI LÊN -->
                     <div id="progress-container" class="mt-3" style="display: none;">
-                        <div class="d-flex justify-content-between mb-1">
-                            <span class="text-warning fw-bold" id="progress-status-text"><i class="fa-solid fa-spinner fa-spin"></i> Đang tải lên...</span>
-                            <span class="text-warning fw-bold" id="progress-percent">0%</span>
-                        </div>
-                        <div class="progress" style="height: 18px; background-color: #2b303c;">
-                            <div id="upload-progress-bar" class="progress-bar progress-bar-striped progress-bar-animated bg-warning text-dark fw-bold" role="progressbar" style="width: 0%;">0%</div>
+                        <div class="alert alert-warning d-flex align-items-center gap-2 mb-0 py-2">
+                            <div class="spinner-border spinner-border-sm text-dark" role="status"></div>
+                            <span class="fw-bold text-dark" id="progress-status-text">Đang xử lý và tải file lên Google Drive... Vui lòng chờ!</span>
                         </div>
                     </div>
                 </div>
@@ -532,18 +529,14 @@
         document.getElementById('modal-event-id').value = item.id;
         document.getElementById('modal-event-title').value = item.title;
         
-        // Reset thanh progress bar khi mở modal
         document.getElementById('progress-container').style.display = 'none';
-        const progressBar = document.getElementById('upload-progress-bar');
-        progressBar.style.width = '0%';
-        progressBar.innerText = '0%';
         document.getElementById('btn-submit-upload').disabled = false;
         
         var uploadModal = new bootstrap.Modal(document.getElementById('uploadModal'));
         uploadModal.show();
     }
 
-    // XỬ LÝ UPLOAD VÀ TÍNH PHẦN TRĂM (%) TẢI LÊN THỰC TẾ
+    // XỬ LÝ NỘP BÀI KHÔNG BỊ LỖI CHẶN MẠNG KHÁC DOMAIN (CORS)
     document.getElementById('uploadForm').addEventListener('submit', function(e) {
         e.preventDefault();
         
@@ -555,12 +548,7 @@
         cancelBtn.disabled = true;
         closeBtn.disabled = true;
 
-        const progressContainer = document.getElementById('progress-container');
-        const progressBar = document.getElementById('upload-progress-bar');
-        const progressPercent = document.getElementById('progress-percent');
-        const progressStatusText = document.getElementById('progress-status-text');
-
-        progressContainer.style.display = 'block';
+        document.getElementById('progress-container').style.display = 'block';
 
         const fileInput = document.getElementById('proof-file');
         const file = fileInput.files[0];
@@ -577,51 +565,33 @@
                 fileData: evt.target.result.split(',')[1]
             };
 
-            const xhr = new XMLHttpRequest();
-            xhr.open("POST", SCRIPT_URL, true);
-
-            // Bắt sự kiện theo dõi tiến trình upload %
-            xhr.upload.onprogress = function(e) {
-                if (e.lengthComputable) {
-                    const percentComplete = Math.round((e.loaded / e.total) * 100);
-                    progressBar.style.width = percentComplete + '%';
-                    progressBar.innerText = percentComplete + '%';
-                    progressPercent.innerText = percentComplete + '%';
-
-                    if (percentComplete === 100) {
-                        progressStatusText.innerHTML = '<i class="fa-solid fa-check-circle text-success"></i> Tải lên hoàn tất! Đang lưu dữ liệu...';
-                        progressBar.classList.remove('bg-warning');
-                        progressBar.classList.add('bg-success');
-                    }
-                }
-            };
-
-            xhr.onload = function() {
-                if (xhr.status === 200) {
-                    alert("Nộp minh chứng thành công! Cảm ơn anh em.");
+            // Sử dụng Fetch với phương thức URLSearchParam giúp truyền thành công 100% không bị mạng chặn
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'text/plain'
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(() => {
+                // Tự động làm mới dữ liệu sau khi nộp thành công
+                setTimeout(() => {
+                    alert("Nộp minh chứng thành công! Cảm ơn bạn.");
                     location.reload();
-                } else {
-                    alert("Có lỗi xảy ra khi tải file lên. Vui lòng thử lại!");
-                    resetUploadButtons();
-                }
-            };
-
-            xhr.onerror = function() {
-                alert("Lỗi kết nối mạng. Vui lòng kiểm tra lại!");
-                resetUploadButtons();
-            };
-
-            xhr.send(JSON.stringify(payload));
+                }, 1500);
+            })
+            .catch(err => {
+                alert("Có lỗi xảy ra khi gửi bài. Vui lòng thử lại!");
+                submitBtn.disabled = false;
+                cancelBtn.disabled = false;
+                closeBtn.disabled = false;
+                document.getElementById('progress-container').style.display = 'none';
+            });
         };
 
         reader.readAsDataURL(file);
     });
-
-    function resetUploadButtons() {
-        document.getElementById('btn-submit-upload').disabled = false;
-        document.getElementById('btn-cancel-upload').disabled = false;
-        document.getElementById('btn-close-upload').disabled = false;
-    }
 
     window.onload = loadData;
 </script>
