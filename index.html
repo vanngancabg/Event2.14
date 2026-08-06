@@ -90,13 +90,8 @@
             font-size: 0.95rem;
         }
 
-        .reward-col .winner-name.has-winner {
-            color: #00f5d4;
-        }
-
-        .reward-col .winner-name.no-winner {
-            color: #ffaa00;
-        }
+        .reward-col .winner-name.has-winner { color: #00f5d4; }
+        .reward-col .winner-name.no-winner { color: #ffaa00; }
 
         .badge-status-done {
             background-color: #198754 !important;
@@ -168,6 +163,33 @@
             color: #c0c9d6;
             font-size: 0.88rem;
         }
+
+        /* Nút Chuông Báo Admin */
+        .btn-notification {
+            position: relative;
+            background-color: #2b303c;
+            color: #ffc107;
+            border: 1px solid #454d5e;
+            font-weight: 700;
+        }
+
+        .btn-notification:hover {
+            background-color: #383f4f;
+            color: #ffca2c;
+        }
+
+        .badge-unread-count {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background-color: #dc3545;
+            color: white;
+            border-radius: 50%;
+            padding: 4px 8px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            box-shadow: 0 0 8px rgba(220, 53, 69, 0.8);
+        }
     </style>
 </head>
 <body>
@@ -184,7 +206,7 @@
 
     <!-- Thanh công cụ -->
     <div class="row mb-4 align-items-center">
-        <div class="col-md-8 mb-2 mb-md-0">
+        <div class="col-md-7 mb-2 mb-md-0">
             <div class="notice-box d-flex align-items-center gap-3">
                 <i class="fa-solid fa-circle-info text-warning fs-3"></i>
                 <div>
@@ -192,7 +214,15 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4 text-end">
+        <div class="col-md-5 text-end d-flex align-items-center justify-content-end gap-2">
+            <!-- Nút Chuông Báo dành riêng cho Admin (Ẩn mặc định) -->
+            <div id="admin-notification-container" style="display: none;">
+                <button class="btn btn-notification px-3 py-2" onclick="openNotificationModal()">
+                    <i class="fa-solid fa-bell"></i> Bài nộp mới 
+                    <span class="badge-unread-count" id="unread-count">0</span>
+                </button>
+            </div>
+
             <button class="btn btn-warning fw-bold px-3 py-2" onclick="loadData()"><i class="fa-solid fa-rotate" id="refresh-icon"></i> Làm mới dữ liệu</button>
         </div>
     </div>
@@ -222,6 +252,28 @@
                 </tr>
             </tbody>
         </table>
+    </div>
+</div>
+
+<!-- Modal Thông báo Bài Nộp Mới Cho Admin -->
+<div class="modal fade" id="notificationModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content bg-dark text-light border-secondary">
+            <div class="modal-header border-secondary">
+                <h5 class="modal-title text-warning"><i class="fa-solid fa-bell"></i> DANH SÁCH BÀI NỘP MỚI CẦN CHECK (ADMIN)</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p class="text-muted"><small>Dưới đây là danh sách anh em vừa nộp bài. Bạn có thể bấm [Xem] để kiểm tra minh chứng.</small></p>
+                <div id="unread-submissions-list" class="d-flex flex-column gap-2" style="max-height: 350px; overflow-y: auto;">
+                    <!-- Nạp bài nộp chưa đọc -->
+                </div>
+            </div>
+            <div class="modal-footer border-secondary">
+                <button type="button" class="btn btn-outline-success" onclick="markAllAsRead()"><i class="fa-solid fa-check-double"></i> Đánh dấu đã xem tất cả</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -271,15 +323,26 @@
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwFzJJvzwKe9W7FYnGKBajeqZeZXCcFP2qoB-pzhTf4bXjIKchQLGFyTLamhdSpjT0w/exec";
 
     let eventData = [];
+    let unreadSubmissions = [];
+
+    // Kiểm tra xem link có đính kèm đuôi ?admin=123 hay không
+    const urlParams = new URLSearchParams(window.location.search);
+    const isAdmin = urlParams.has('admin');
 
     async function loadData() {
         const icon = document.getElementById('refresh-icon');
         if(icon) icon.classList.add('fa-spin');
+
+        if(isAdmin) {
+            document.getElementById('admin-notification-container').style.display = 'block';
+        }
         
         try {
             const res = await fetch(SCRIPT_URL + "?action=getEvents");
             const data = await res.json();
             eventData = data;
+            
+            processNotifications(data);
             renderTable(data);
         } catch (err) {
             console.error("Lỗi tải dữ liệu:", err);
@@ -287,6 +350,78 @@
         } finally {
             if(icon) icon.classList.remove('fa-spin');
         }
+    }
+
+    // Xử lý thông báo bài nộp mới chưa đọc dành cho Admin
+    function processNotifications(data) {
+        if (!isAdmin) return;
+
+        const readSubmissions = JSON.parse(localStorage.getItem('mxl_read_submissions') || '[]');
+        unreadSubmissions = [];
+
+        data.forEach(item => {
+            if (item.submissions && item.submissions.length > 0) {
+                item.submissions.forEach(sub => {
+                    const subId = `${item.id}_${sub.playerName}_${sub.time}`;
+                    if (!readSubmissions.includes(subId)) {
+                        unreadSubmissions.push({
+                            id: subId,
+                            eventTitle: item.title,
+                            playerName: sub.playerName,
+                            time: sub.time,
+                            proofUrl: sub.proofUrl
+                        });
+                    }
+                });
+            }
+        });
+
+        document.getElementById('unread-count').innerText = unreadSubmissions.length;
+    }
+
+    function openNotificationModal() {
+        const container = document.getElementById('unread-submissions-list');
+        container.innerHTML = '';
+
+        if (unreadSubmissions.length === 0) {
+            container.innerHTML = '<div class="alert alert-dark text-center">Không có bài nộp mới nào chưa đọc!</div>';
+        } else {
+            unreadSubmissions.forEach(sub => {
+                const item = document.createElement('div');
+                item.className = 'p-3 bg-secondary bg-opacity-25 border border-secondary rounded d-flex justify-content-between align-items-center';
+                item.innerHTML = `
+                    <div>
+                        <span class="badge bg-warning text-dark me-2">${sub.eventTitle}</span>
+                        <strong class="text-white">${sub.playerName}</strong>
+                        <small class="text-info ms-2">(${sub.time})</small>
+                    </div>
+                    <a href="${sub.proofUrl}" target="_blank" class="proof-link"><i class="fa-solid fa-eye"></i> Xem Minh Chứng</a>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        var modal = new bootstrap.Modal(document.getElementById('notificationModal'));
+        modal.show();
+    }
+
+    function markAllAsRead() {
+        const readSubmissions = JSON.parse(localStorage.getItem('mxl_read_submissions') || '[]');
+        unreadSubmissions.forEach(sub => {
+            if (!readSubmissions.includes(sub.id)) {
+                readSubmissions.push(sub.id);
+            }
+        });
+
+        localStorage.setItem('mxl_read_submissions', JSON.stringify(readSubmissions));
+        unreadSubmissions = [];
+        document.getElementById('unread-count').innerText = '0';
+        
+        var modalElement = document.getElementById('notificationModal');
+        var modal = bootstrap.Modal.getInstance(modalElement);
+        if(modal) modal.hide();
+
+        alert("Đã xóa thông báo mới thành công!");
     }
 
     function formatRewardCell(reward, winner, status) {
@@ -310,7 +445,6 @@
         `;
     }
 
-    // Hàm kiểm tra xem mốc đã hoàn thành trao hết tất cả các giải khả dụng chưa
     function checkAllRewardsCompleted(item) {
         let totalRewards = 0;
         let completedRewards = 0;
@@ -328,7 +462,6 @@
             if (item.r3_status === 'Đã trao') completedRewards++;
         }
 
-        // Nếu mốc có cài giải và số giải đã trao bằng tổng số giải khả dụng
         return (totalRewards > 0) && (totalRewards === completedRewards);
     }
 
@@ -341,7 +474,6 @@
         data.forEach((item, index) => {
             const tr = document.createElement('tr');
             
-            // Xử lý danh sách bài nộp
             let submissionsHTML = '<div class="submission-list">';
             if(item.submissions && item.submissions.length > 0) {
                 item.submissions.forEach((sub, idx) => {
@@ -360,17 +492,14 @@
             }
             submissionsHTML += '</div>';
 
-            // 1. Kiểm tra hết hạn ngày
             let isExpired = false;
             let dateDisplay = item.endDate || 'Chưa chốt';
             if (item.endDate && item.endDate < today) {
                 isExpired = true;
             }
 
-            // 2. Kiểm tra đã trao hết giải chưa
             let isAllCompleted = checkAllRewardsCompleted(item);
 
-            // Xử lý nút Nộp
             let actionBtnHTML = '';
             if (isExpired) {
                 actionBtnHTML = `<button class="btn btn-sm btn-secondary w-100 disabled" style="opacity: 0.6;"><i class="fa-solid fa-lock"></i> Hết hạn</button>`;
