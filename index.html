@@ -52,19 +52,26 @@
         .table-custom {
             background-color: var(--card-bg);
             border-radius: 8px;
-            overflow: hidden;
             box-shadow: 0 4px 25px rgba(0,0,0,0.7);
             border: 1px solid var(--border-color);
+            border-collapse: separate;
+            border-spacing: 0;
         }
 
-        .table-custom th {
-            background-color: #111318;
+        /* Giữ cố định tiêu đề bảng (Sticky Header) khi cuộn chuột */
+        .table-custom thead th {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background-color: #111318 !important;
             color: var(--accent-gold);
-            border-bottom: 2px solid var(--border-color);
+            border-bottom: 2px solid var(--accent-gold) !important;
+            border-top: 1px solid var(--border-color);
             vertical-align: middle;
             text-align: center;
             font-size: 0.95rem;
-            padding: 12px 8px;
+            padding: 14px 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
         }
 
         .table-custom td {
@@ -536,7 +543,6 @@
         uploadModal.show();
     }
 
-    // XỬ LÝ NỘP BÀI KHÔNG BỊ LỖI CHẶN MẠNG KHÁC DOMAIN (CORS)
     document.getElementById('uploadForm').addEventListener('submit', function(e) {
         e.preventDefault();
         
@@ -565,7 +571,6 @@
                 fileData: evt.target.result.split(',')[1]
             };
 
-            // Sử dụng Fetch với phương thức URLSearchParam giúp truyền thành công 100% không bị mạng chặn
             fetch(SCRIPT_URL, {
                 method: 'POST',
                 mode: 'no-cors',
@@ -575,7 +580,6 @@
                 body: JSON.stringify(payload)
             })
             .then(() => {
-                // Tự động làm mới dữ liệu sau khi nộp thành công
                 setTimeout(() => {
                     alert("Nộp minh chứng thành công! Cảm ơn bạn.");
                     location.reload();
