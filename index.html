@@ -78,7 +78,6 @@
             padding: 15px;
         }
 
-        /* Banner cảnh báo phong cách Diablo tối màu, tương phản cực nét */
         .rule-warning-banner {
             background-color: #1a1510;
             border: 1px solid #854d0e;
@@ -216,7 +215,6 @@
             box-shadow: 0 0 8px rgba(220, 53, 69, 0.8);
         }
 
-        /* Thẻ Nội Quy */
         .rule-card {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
@@ -254,7 +252,7 @@
 
 <div class="container-fluid px-4">
 
-    <!-- Tabs chuyển đổi giữa Bảng Sự Kiện & Nội Quy -->
+    <!-- Tabs chuyển đổi giữa Bảng Sự Kiện & Thể Lệ -->
     <div class="d-flex justify-content-between align-items-center flex-wrap">
         <ul class="nav nav-tabs nav-tabs-custom" id="eventTab" role="tablist">
             <li class="nav-item" role="presentation">
@@ -264,7 +262,7 @@
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="event-rules-tab" data-bs-toggle="tab" data-bs-target="#event-rules-pane" type="button" role="tab">
-                    <i class="fa-solid fa-scroll text-danger"></i> NỘI QUY & THỂ LỆ SỰ KIỆN
+                    <i class="fa-solid fa-scroll text-danger"></i> THỂ LỆ & QUY ĐỊNH NHẬN THƯỞNG
                 </button>
             </li>
         </ul>
@@ -272,7 +270,7 @@
         <div class="d-flex align-items-center gap-2 mb-3">
             <div id="admin-notification-container" style="display: none;">
                 <button class="btn btn-notification px-3 py-2" onclick="openNotificationModal()">
-                    <i class="fa-solid fa-bell"></i> Bài nộp mới 
+                    <i class="fa-solid fa-bell"></i> Minh chứng mới 
                     <span class="badge-unread-count" id="unread-count">0</span>
                 </button>
             </div>
@@ -288,7 +286,7 @@
             <div class="notice-box d-flex align-items-center gap-3 mb-4">
                 <i class="fa-solid fa-circle-info text-warning fs-3"></i>
                 <div>
-                    <strong class="text-warning">Hướng dẫn cho Anh Em:</strong> Sau khi hoàn thành mốc, bấm nút <span class="badge bg-warning text-dark">Nộp</span> tương ứng. Vui lòng đọc kỹ tab <strong class="text-danger">"Nội Quy & Thể Lệ"</strong> để bài nộp hợp lệ và được trao giải sớm nhất!
+                    <strong class="text-warning">Hướng dẫn cho Anh Em:</strong> Sau khi hoàn thành mốc, bấm nút <span class="badge bg-warning text-dark">Nộp</span> tương ứng. Ban quản lý sẽ đối soát minh chứng theo thời gian gửi sớm nhất để xác nhận trao thưởng!
                 </div>
             </div>
 
@@ -301,8 +299,8 @@
                             <th style="width: 140px;">GIẢI 1 (ĐẦU TIÊN)</th>
                             <th style="width: 140px;">GIẢI 2 (THỨ 2)</th>
                             <th style="width: 140px;">GIẢI 3 (THỨ 3)</th>
-                            <th style="width: 270px;">DANH SÁCH ĐÃ NỘP BÀI</th>
-                            <th style="width: 130px;">HẠN / NGÀY TRAO</th>
+                            <th style="width: 270px;">DANH SÁCH MINH CHỨNG ĐÃ GỬI</th>
+                            <th style="width: 120px;">THỜI HẠN</th>
                             <th style="width: 200px;">GHI CHÚ</th>
                             <th style="width: 110px;">THAO TÁC</th>
                         </tr>
@@ -319,36 +317,36 @@
             </div>
         </div>
 
-        <!-- TAB 2: NỘI QUY VÀ QUY ĐỊNH -->
+        <!-- TAB 2: THỂ LỆ VÀ QUY ĐỊNH -->
         <div class="tab-pane fade" id="event-rules-pane" role="tabpanel">
             <div class="rule-warning-banner mb-4 d-flex align-items-center gap-3">
                 <i class="fa-solid fa-triangle-exclamation text-danger fs-2"></i>
                 <div>
-                    <h5 class="text-warning mb-1 fw-bold">QUY ĐỊNH BẮT BUỘC KHI THAM GIA MÙA 2.14</h5>
-                    <span class="text-light">Tất cả anh em cộng đồng cần tuân thủ các quy tắc dưới đây để được công nhận kết quả và nhận thưởng TG hợp lệ từ Ban Tổ Chức.</span>
+                    <h5 class="text-warning mb-1 fw-bold">THỂ LỆ & QUY ĐỊNH MÙA GIẢI 2.14</h5>
+                    <span class="text-light">Tất cả anh em cộng đồng cần tuân thủ các quy định dưới đây để được công nhận hoàn thành mốc và nhận thưởng TG hợp lệ từ Ban Tổ Chức.</span>
                 </div>
             </div>
 
             <div id="rules-container">
                 <div class="text-center py-4 text-muted">
                     <div class="spinner-border text-warning" role="status"></div>
-                    <p class="mt-2">Đang tải nội quy từ Ban Quản Lý...</p>
+                    <p class="mt-2">Đang tải thể lệ sự kiện từ Ban Quản Lý...</p>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Modal Thông báo Bài Nộp Mới Cho Admin -->
+<!-- Modal Thông báo Minh Chứng Mới Cho Admin -->
 <div class="modal fade" id="notificationModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content bg-dark text-light border-secondary">
             <div class="modal-header border-secondary">
-                <h5 class="modal-title text-warning"><i class="fa-solid fa-bell"></i> DANH SÁCH BÀI NỘP MỚI CẦN CHECK (ADMIN)</h5>
+                <h5 class="modal-title text-warning"><i class="fa-solid fa-bell"></i> MINH CHỨNG MỚI CẦN CHECK (ADMIN)</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <p class="text-muted"><small>Bấm [Xem] để kiểm tra file. Sau khi kiểm tra xong, bấm [Đã check] để xóa dòng đó khỏi danh sách này.</small></p>
+                <p class="text-muted"><small>Bấm [Xem] để đối soát ảnh/video. Sau khi kiểm tra xong, bấm [Đã check] để hoàn tất.</small></p>
                 <div id="unread-submissions-list" class="d-flex flex-column gap-2" style="max-height: 380px; overflow-y: auto;">
                 </div>
             </div>
@@ -360,19 +358,19 @@
     </div>
 </div>
 
-<!-- Modal Nộp Bài -->
+<!-- Modal Nộp Minh Chứng -->
 <div class="modal fade" id="uploadModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content bg-dark text-light border-secondary">
             <div class="modal-header border-secondary">
-                <h5 class="modal-title text-warning"><i class="fa-solid fa-cloud-arrow-up"></i> NỘP MINH CHỨNG HOÀN THÀNH</h5>
+                <h5 class="modal-title text-warning"><i class="fa-solid fa-cloud-arrow-up"></i> GỬI MINH CHỨNG HOÀN THÀNH</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" id="btn-close-upload"></button>
             </div>
             <form id="uploadForm">
                 <div class="modal-body">
                     <input type="hidden" id="modal-event-id">
                     <div class="mb-3">
-                        <label class="form-label text-light">Nội dung mốc:</label>
+                        <label class="form-label text-light">Mốc sự kiện:</label>
                         <input type="text" class="form-control bg-secondary text-white border-0 fw-bold" id="modal-event-title" readonly>
                     </div>
                     <div class="mb-3">
@@ -392,14 +390,14 @@
                     <div id="progress-container" class="mt-3" style="display: none;">
                         <div class="alert alert-warning d-flex align-items-center gap-2 mb-0 py-2">
                             <div class="spinner-border spinner-border-sm text-dark" role="status"></div>
-                            <span class="fw-bold text-dark" id="progress-status-text">Đang xử lý và tải file lên Google Drive... Vui lòng chờ!</span>
+                            <span class="fw-bold text-dark" id="progress-status-text">Đang tải minh chứng lên Google Drive... Vui lòng chờ!</span>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer border-secondary">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn-cancel-upload">Hủy</button>
                     <button type="submit" class="btn btn-upload" id="btn-submit-upload">
-                        <i class="fa-solid fa-paper-plane"></i> Tải Lên Minh Chứng
+                        <i class="fa-solid fa-paper-plane"></i> Gửi Minh Chứng
                     </button>
                 </div>
             </form>
@@ -450,12 +448,12 @@
         if (!rules || rules.length === 0) {
             container.innerHTML = `
                 <div class="rule-card">
-                    <div class="rule-card-title"><i class="fa-solid fa-circle-check"></i> 1. Quy định chung về nộp minh chứng</div>
-                    <div class="rule-card-body">Ảnh/Video nộp phải rõ nét tên nhân vật, vật phẩm đạt yêu cầu và chỉ số tương ứng. Nghiêm cấm mọi hành vi gian lận hoặc mượn minh chứng của người khác.</div>
+                    <div class="rule-card-title"><i class="fa-solid fa-circle-check"></i> 1. Quy định về minh chứng hoàn thành</div>
+                    <div class="rule-card-body">Ảnh/Video minh chứng phải rõ nét tên nhân vật, vật phẩm đạt yêu cầu và chỉ số tương ứng. Nghiêm cấm mọi hành vi gian lận hoặc mượn minh chứng của người khác.</div>
                 </div>
                 <div class="rule-card">
-                    <div class="rule-card-title"><i class="fa-solid fa-clock"></i> 2. Thời gian trao giải</div>
-                    <div class="rule-card-body">Ban Quản Lý sẽ đối soát theo thứ tự thời gian nộp sớm nhất. Nếu người nộp trước không hợp lệ, giải sẽ tự động chuyển cho người đạt yêu cầu tiếp theo.</div>
+                    <div class="rule-card-title"><i class="fa-solid fa-clock"></i> 2. Thứ tự xét trao thưởng</div>
+                    <div class="rule-card-body">Ban Quản Lý sẽ đối soát theo thứ tự thời gian gửi minh chứng sớm nhất. Nếu người trước không hợp lệ, giải thưởng sẽ tự động chuyển cho người đạt yêu cầu tiếp theo.</div>
                 </div>
             `;
             return;
@@ -510,7 +508,7 @@
         container.innerHTML = '';
 
         if (unreadSubmissions.length === 0) {
-            container.innerHTML = '<div class="alert alert-dark text-center">Không có bài nộp mới nào chưa đọc!</div>';
+            container.innerHTML = '<div class="alert alert-dark text-center">Không có minh chứng mới nào chưa check!</div>';
             document.getElementById('unread-count').innerText = '0';
         } else {
             unreadSubmissions.forEach(sub => {
@@ -626,7 +624,7 @@
                     `;
                 });
             } else {
-                submissionsHTML += '<span class="text-muted"><small><i>Chưa có bài nộp</i></small></span>';
+                submissionsHTML += '<span class="text-muted"><small><i>Chưa có minh chứng</i></small></span>';
             }
             submissionsHTML += '</div>';
 
@@ -719,12 +717,12 @@
             })
             .then(() => {
                 setTimeout(() => {
-                    alert("Nộp minh chứng thành công! Cảm ơn bạn.");
+                    alert("Gửi minh chứng thành công! Cảm ơn bạn.");
                     location.reload();
                 }, 1500);
             })
             .catch(err => {
-                alert("Có lỗi xảy ra khi gửi bài. Vui lòng thử lại!");
+                alert("Có lỗi xảy ra khi gửi minh chứng. Vui lòng thử lại!");
                 submitBtn.disabled = false;
                 cancelBtn.disabled = false;
                 closeBtn.disabled = false;
