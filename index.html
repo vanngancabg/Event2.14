@@ -56,6 +56,7 @@
             border-radius: 8px 8px 0 0;
             padding: 10px 22px;
             transition: all 0.2s ease;
+            cursor: pointer;
         }
 
         .nav-tabs-custom .nav-link:hover {
@@ -76,6 +77,16 @@
             color: #f0f4f8;
             border-radius: 8px;
             padding: 15px;
+        }
+
+        .rules-link-btn {
+            color: #ffc107;
+            text-decoration: underline;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .rules-link-btn:hover {
+            color: #ffdb70;
         }
 
         .rule-warning-banner {
@@ -286,7 +297,7 @@
             <div class="notice-box d-flex align-items-center gap-3 mb-4">
                 <i class="fa-solid fa-circle-info text-warning fs-3"></i>
                 <div>
-                    <strong class="text-warning">Hướng dẫn cho Anh Em:</strong> Sau khi hoàn thành mốc, bấm nút <span class="badge bg-warning text-dark">Nộp</span> tương ứng. Ban quản lý sẽ đối soát minh chứng theo thời gian gửi sớm nhất để xác nhận trao thưởng!
+                    <strong class="text-warning">Hướng dẫn cho Anh Em:</strong> Anh em vui lòng đọc kỹ <span class="rules-link-btn" onclick="switchToRulesTab()"><i class="fa-solid fa-scroll"></i> Thể lệ & Quy định</span> trước tiên. Sau khi hoàn thành mốc, bấm nút <span class="badge bg-warning text-dark">Nộp</span> tương ứng. Ban quản lý sẽ đối soát theo thời gian tải lên sớm nhất và cập nhật danh sách trao giải!
                 </div>
             </div>
 
@@ -299,7 +310,7 @@
                             <th style="width: 140px;">GIẢI 1 (ĐẦU TIÊN)</th>
                             <th style="width: 140px;">GIẢI 2 (THỨ 2)</th>
                             <th style="width: 140px;">GIẢI 3 (THỨ 3)</th>
-                            <th style="width: 270px;">DANH SÁCH MINH CHỨNG ĐÃ GỬI</th>
+                            <th style="width: 270px;">DANH SÁCH ĐÃ GỬI MINH CHỨNG</th>
                             <th style="width: 120px;">THỜI HẠN</th>
                             <th style="width: 200px;">GHI CHÚ</th>
                             <th style="width: 110px;">THAO TÁC</th>
@@ -414,6 +425,13 @@
 
     const urlParams = new URLSearchParams(window.location.search);
     const isAdmin = urlParams.has('admin');
+
+    // Chuyển tab sang Thể lệ & Quy định khi bấm vào đường link trong phần hướng dẫn
+    function switchToRulesTab() {
+        const rulesTabBtn = document.getElementById('event-rules-tab');
+        const tab = new bootstrap.Tab(rulesTabBtn);
+        tab.show();
+    }
 
     async function loadData() {
         const icon = document.getElementById('refresh-icon');
