@@ -29,7 +29,7 @@
             background: linear-gradient(180deg, #2a1800 0%, var(--bg-color) 100%);
             border-bottom: 2px solid var(--accent-gold);
             padding: 25px 0;
-            text-align: center;
+            position: relative;
             margin-bottom: 20px;
         }
 
@@ -39,6 +39,50 @@
             text-transform: uppercase;
             letter-spacing: 2px;
             text-shadow: 0 0 12px rgba(255, 193, 7, 0.4);
+        }
+
+        /* Khung Đồng hồ đếm số thông minh ở góc trên bên phải */
+        .season-timer-box {
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            background: rgba(18, 20, 26, 0.9);
+            border: 1px solid #454d5e;
+            border-radius: 8px;
+            padding: 8px 16px;
+            text-align: right;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+        }
+
+        .timer-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .timer-digits {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #00f5d4;
+            letter-spacing: 1px;
+        }
+
+        .timer-digits.countdown {
+            color: #ffc107;
+        }
+
+        @media (max-width: 991px) {
+            .season-timer-box {
+                position: static;
+                margin: 15px auto 0 auto;
+                text-align: center;
+                display: inline-block;
+            }
         }
 
         .nav-tabs-custom {
@@ -254,10 +298,16 @@
 <body>
 
 <div class="header-banner">
-    <div class="container">
+    <div class="container text-center">
         <h1 class="header-title"><i class="fa-solid fa-dragon"></i> EVENT MEDIAN XL MÙA 2.14</h1>
         <p class="text-light mb-1">Cộng đồng Diablo 2 Median XL Việt Nam</p>
-        <span class="badge bg-danger fs-6"><i class="fa-regular fa-clock"></i> Cập nhật thời gian thực từ Ban Quản Lý</span>
+        <span class="badge bg-danger fs-6"><i class="fa-regular fa-calendar-check"></i> Khởi tranh: 03:00, 05/09/2026 (Giờ VN)</span>
+        
+        <!-- Đồng hồ đếm số thông minh ở góc trên bên phải -->
+        <div class="season-timer-box">
+            <div class="timer-label" id="timer-status-label"><i class="fa-regular fa-clock"></i> ĐẾM NGƯỢC VÀO MÙA</div>
+            <div class="timer-digits countdown" id="season-clock">- 00:00:00:00</div>
+        </div>
     </div>
 </div>
 
@@ -420,13 +470,53 @@
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwFzJJvzwKe9W7FYnGKBajeqZeZXCcFP2qoB-pzhTf4bXjIKchQLGFyTLamhdSpjT0w/exec";
 
+    // Mốc thời gian bắt đầu Mùa 2.14: 03:00:00 ngày 05/09/2026 (Giờ VN)
+    const SEASON_START_TIME = new Date("2026-09-05T03:00:00+07:00").getTime();
+
+    function updateSeasonClock() {
+        const now = new Date().getTime();
+        const diff = SEASON_START_TIME - now;
+        const clockElem = document.getElementById('season-clock');
+        const labelElem = document.getElementById('timer-status-label');
+
+        if (!clockElem) return;
+
+        let totalSeconds = Math.floor(Math.abs(diff) / 1000);
+        const days = Math.floor(totalSeconds / (3600 * 24));
+        totalSeconds %= (3600 * 24);
+        const hours = Math.floor(totalSeconds / 3600);
+        totalSeconds %= 3600;
+        const minutes = Math.floor(totalSeconds / 60);
+        const seconds = totalSeconds % 60;
+
+        const dStr = String(days).padStart(2, '0');
+        const hStr = String(hours).padStart(2, '0');
+        const mStr = String(minutes).padStart(2, '0');
+        const sStr = String(seconds).padStart(2, '0');
+
+        if (diff > 0) {
+            // Chưa đến ngày mở mùa -> Đếm ngược có dấu trừ (-) màu vàng
+            labelElem.innerHTML = '<i class="fa-solid fa-hourglass-half"></i> ĐẾM NGƯỢC VÀO MÙA';
+            clockElem.innerText = `- ${dStr}:${hStr}:${mStr}:${sStr}`;
+            clockElem.className = 'timer-digits countdown';
+        } else {
+            // Đã vào mùa -> Đếm tiến từ 0 có dấu cộng (+) màu xanh ngọc
+            labelElem.innerHTML = '<i class="fa-solid fa-fire text-danger"></i> THỜI GIAN VÀO MÙA';
+            clockElem.innerText = `+ ${dStr}:${hStr}:${mStr}:${sStr}`;
+            clockElem.className = 'timer-digits';
+        }
+    }
+
+    // Chạy đồng hồ mỗi giây
+    setInterval(updateSeasonClock, 1000);
+    updateSeasonClock();
+
     let eventData = [];
     let unreadSubmissions = [];
 
     const urlParams = new URLSearchParams(window.location.search);
     const isAdmin = urlParams.has('admin');
 
-    // Chuyển tab sang Thể lệ & Quy định khi bấm vào đường link trong phần hướng dẫn
     function switchToRulesTab() {
         const rulesTabBtn = document.getElementById('event-rules-tab');
         const tab = new bootstrap.Tab(rulesTabBtn);
