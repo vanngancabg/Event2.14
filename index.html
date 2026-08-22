@@ -41,7 +41,6 @@
             text-shadow: 0 0 12px rgba(255, 193, 7, 0.4);
         }
 
-        /* Tùy chỉnh Tabs chuyển đổi */
         .nav-tabs-custom {
             border-bottom: 2px solid var(--border-color);
             margin-bottom: 20px;
@@ -77,6 +76,16 @@
             color: #f0f4f8;
             border-radius: 8px;
             padding: 15px;
+        }
+
+        /* Banner cảnh báo phong cách Diablo tối màu, tương phản cực nét */
+        .rule-warning-banner {
+            background-color: #1a1510;
+            border: 1px solid #854d0e;
+            border-left: 5px solid #ffaa00;
+            color: #fef08a;
+            border-radius: 8px;
+            padding: 16px 20px;
         }
 
         .table-responsive {
@@ -207,7 +216,7 @@
             box-shadow: 0 0 8px rgba(220, 53, 69, 0.8);
         }
 
-        /* Giao diện Thẻ Nội Quy */
+        /* Thẻ Nội Quy */
         .rule-card {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
@@ -226,7 +235,7 @@
         }
 
         .rule-card-body {
-            color: #d1d7e0;
+            color: #e2e8f0;
             font-size: 0.95rem;
             line-height: 1.6;
             white-space: pre-line;
@@ -312,7 +321,7 @@
 
         <!-- TAB 2: NỘI QUY VÀ QUY ĐỊNH -->
         <div class="tab-pane fade" id="event-rules-pane" role="tabpanel">
-            <div class="alert alert-dark border-secondary p-3 mb-4 d-flex align-items-center gap-3">
+            <div class="rule-warning-banner mb-4 d-flex align-items-center gap-3">
                 <i class="fa-solid fa-triangle-exclamation text-danger fs-2"></i>
                 <div>
                     <h5 class="text-warning mb-1 fw-bold">QUY ĐỊNH BẮT BUỘC KHI THAM GIA MÙA 2.14</h5>
@@ -420,7 +429,6 @@
             const res = await fetch(SCRIPT_URL + "?action=getEvents");
             const data = await res.json();
             
-            // Xử lý dữ liệu Events và Rules từ API trả về
             eventData = data.events || data;
             const rulesData = data.rules || [];
             
