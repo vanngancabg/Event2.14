@@ -85,6 +85,50 @@
             }
         }
 
+        /* Thẻ thống kê tổng quỹ giải thưởng TG */
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px 18px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .stat-card.total-pool {
+            border-left: 4px solid var(--accent-gold);
+        }
+
+        .stat-card.awarded-pool {
+            border-left: 4px solid var(--accent-green);
+        }
+
+        .stat-card.remaining-pool {
+            border-left: 4px solid #00d2ff;
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+            opacity: 0.9;
+        }
+
+        .stat-label {
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .stat-value {
+            font-size: 1.35rem;
+            font-weight: 800;
+            line-height: 1.1;
+        }
+
         .nav-tabs-custom {
             border-bottom: 2px solid var(--border-color);
             margin-bottom: 20px;
@@ -344,6 +388,38 @@
         
         <!-- TAB 1: BẢNG SỰ KIỆN CHÍNH -->
         <div class="tab-pane fade show active" id="event-list-pane" role="tabpanel">
+            
+            <!-- KHU VỰC THỐNG KÊ TỔNG QUỸ GIẢI THƯỞNG EVENT (TỰ ĐỘNG TÍNH TỪ DATA) -->
+            <div class="row g-3 mb-3">
+                <div class="col-md-4">
+                    <div class="stat-card total-pool">
+                        <i class="fa-solid fa-coins text-warning stat-icon"></i>
+                        <div>
+                            <div class="stat-label">Tổng Quỹ Giải Sự Kiện</div>
+                            <div class="stat-value text-warning" id="stat-total-pool">0 TG</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-card awarded-pool">
+                        <i class="fa-solid fa-gift text-success stat-icon"></i>
+                        <div>
+                            <div class="stat-label">Đã Trao Thưởng</div>
+                            <div class="stat-value text-success" id="stat-awarded-pool">0 TG</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-card remaining-pool">
+                        <i class="fa-solid fa-award text-info stat-icon"></i>
+                        <div>
+                            <div class="stat-label">Giải Chưa Có Chủ</div>
+                            <div class="stat-value text-info" id="stat-remaining-pool">0 TG</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="notice-box d-flex align-items-center gap-3 mb-4">
                 <i class="fa-solid fa-circle-info text-warning fs-3"></i>
                 <div>
@@ -494,7 +570,6 @@
         const mStr = String(minutes).padStart(2, '0');
         const sStr = String(seconds).padStart(2, '0');
 
-        // Định dạng hiển thị rõ đơn vị d, h, ', s
         const timeFormatted = `${dStr}d, ${hStr}h, ${mStr}', ${sStr}s`;
 
         if (diff > 0) {
@@ -508,7 +583,6 @@
         }
     }
 
-    // Chạy đồng hồ mỗi giây
     setInterval(updateSeasonClock, 1000);
     updateSeasonClock();
 
@@ -540,6 +614,7 @@
             const rulesData = data.rules || [];
             
             processNotifications(eventData);
+            renderStats(eventData);
             renderTable(eventData);
             renderRules(rulesData);
         } catch (err) {
@@ -548,6 +623,35 @@
         } finally {
             if(icon) icon.classList.remove('fa-spin');
         }
+    }
+
+    // Tự động tính toán Tổng Quỹ Giải, Đã Trao và Còn Lại
+    function renderStats(data) {
+        let totalPool = 0;
+        let awardedPool = 0;
+
+        data.forEach(item => {
+            // Giải 1
+            const r1 = parseInt(item.r1_reward) || 0;
+            totalPool += r1;
+            if (item.r1_status === 'Đã trao') awardedPool += r1;
+
+            // Giải 2
+            const r2 = parseInt(item.r2_reward) || 0;
+            totalPool += r2;
+            if (item.r2_status === 'Đã trao') awardedPool += r2;
+
+            // Giải 3
+            const r3 = parseInt(item.r3_reward) || 0;
+            totalPool += r3;
+            if (item.r3_status === 'Đã trao') awardedPool += r3;
+        });
+
+        const remainingPool = totalPool - awardedPool;
+
+        document.getElementById('stat-total-pool').innerText = totalPool.toLocaleString('vi-VN') + ' TG';
+        document.getElementById('stat-awarded-pool').innerText = awardedPool.toLocaleString('vi-VN') + ' TG';
+        document.getElementById('stat-remaining-pool').innerText = remainingPool.toLocaleString('vi-VN') + ' TG';
     }
 
     function renderRules(rules) {
