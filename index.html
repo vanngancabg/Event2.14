@@ -66,10 +66,10 @@
 
         .timer-digits {
             font-family: 'Courier New', Courier, monospace;
-            font-size: 1.25rem;
+            font-size: 1.2rem;
             font-weight: 800;
             color: #00f5d4;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
         }
 
         .timer-digits.countdown {
@@ -306,7 +306,7 @@
         <!-- Đồng hồ đếm số thông minh ở góc trên bên phải -->
         <div class="season-timer-box">
             <div class="timer-label" id="timer-status-label"><i class="fa-regular fa-clock"></i> ĐẾM NGƯỢC VÀO MÙA</div>
-            <div class="timer-digits countdown" id="season-clock">- 00:00:00:00</div>
+            <div class="timer-digits countdown" id="season-clock">- 00d, 00h, 00', 00s</div>
         </div>
     </div>
 </div>
@@ -494,15 +494,16 @@
         const mStr = String(minutes).padStart(2, '0');
         const sStr = String(seconds).padStart(2, '0');
 
+        // Định dạng hiển thị rõ đơn vị d, h, ', s
+        const timeFormatted = `${dStr}d, ${hStr}h, ${mStr}', ${sStr}s`;
+
         if (diff > 0) {
-            // Chưa đến ngày mở mùa -> Đếm ngược có dấu trừ (-) màu vàng
             labelElem.innerHTML = '<i class="fa-solid fa-hourglass-half"></i> ĐẾM NGƯỢC VÀO MÙA';
-            clockElem.innerText = `- ${dStr}:${hStr}:${mStr}:${sStr}`;
+            clockElem.innerText = `- ${timeFormatted}`;
             clockElem.className = 'timer-digits countdown';
         } else {
-            // Đã vào mùa -> Đếm tiến từ 0 có dấu cộng (+) màu xanh ngọc
             labelElem.innerHTML = '<i class="fa-solid fa-fire text-danger"></i> THỜI GIAN VÀO MÙA';
-            clockElem.innerText = `+ ${dStr}:${hStr}:${mStr}:${sStr}`;
+            clockElem.innerText = `+ ${timeFormatted}`;
             clockElem.className = 'timer-digits';
         }
     }
